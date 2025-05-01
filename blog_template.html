@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} | Stephen Cropper</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="/img/earth.ico" type="image/x-icon">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8HENCX2V3G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-8HENCX2V3G');
+    </script>
+    <style>
+        .blog-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .blog-post h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        .blog-post .date {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .blog-post p {
+            margin-bottom: 1.5em;
+            line-height: 1.8;
+        }
+        .blog-post ul {
+            margin: 1.5em 0;
+            padding-left: 1.5em;
+        }
+        .blog-post ul li {
+            margin-bottom: 0.8em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2em;
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: #333;
+        }
+        @media only screen and (max-width: 768px) {
+            .blog-post {
+                padding: 15px;
+            }
+            .blog-post h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile-section">
+                <h1>Stephen Cropper</h1>
+                <p>Graduate Student Researcher<br><a href="https://www.ioes.ucla.edu/climate/">UCLA Center for Climate Science</a></p>
+                <img src="../img/headshot.jpg" alt="Stephen Cropper" class="profile-image">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="https://github.com/croppers"><img src="../img/github.png" alt="GitHub"> GitHub</a></li>
+                    <li><a href="https://orcid.org/0000-0003-1370-363X"><img src="../img/orcid.png" alt="ORCiD"> ORCiD</a></li>
+                    <li><a href="https://scholar.google.com/citations?user=TDKOII8AAAAJ"><img src="../img/google_scholar.png" alt="Google Scholar"> Google Scholar</a></li>
+                    <li><a href="https://www.researchgate.net/profile/Stephen_Cropper"><img src="../img/researchgate.png" alt="Research Gate"> Research Gate</a></li>
+                    <li><a href="https://twitter.com/cropper_sj"><img src="../img/twitter.png" alt="Twitter"> Twitter</a></li>
+                    <li><a href="mailto:croppers@ucla.edu"><img src="../img/email.png" alt="Email"> Email</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div class="blog-post">
+                <a href="../index.html#blog" class="back-link">← Back to Blog</a>
+                <h1>{{title}}</h1>
+                <p class="date">{{date}}</p>
+                
+                {{content}}
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

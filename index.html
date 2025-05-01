@@ -11,6 +11,15 @@
     <title>Stephen Cropper | Climate Scientist</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/img/earth.ico" type="image/x-icon">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8HENCX2V3G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-8HENCX2V3G');
+    </script>
 
 </head>
 <body>
@@ -34,30 +43,122 @@
             </nav>
         </div>
         <div class="main-content">
-            <h1>Climate Research</h1>
-            <p>Focused on climate model analysis using emergent constraints and machine learning techniques.</p>
-            <h2>Publications</h2>
-            <section id="publications" class="section">
-                <ul>
-                    <li>
-                        <p>Rodrigues, J. R., Solander, K. C., <b>Cropper, S.</b>, Newman, B. D., Collins, A. D., Warren, J. M., Negron-Juarez, R., Gimenez, B. O., Spanner, G. C., Menezes, V. S., Ríos-Villamizar, E. A., de Oliveira, R. C., Ferreira, S. J. F., & Higuchi, N. (2024). "Soil water percolation and nutrient fluxes as a function of topographical, seasonal and soil texture variation in Central Amazonia, Brazil" <em>Hydrological Processes</em>. <a href="https://doi.org/10.1002/hyp.15148">Access Publication</a></p>
-                    </li>
-                    <li>
-                        <p>Rahimi, S., Huang, L., Norris, J., Hall, A., Goldenson, N., Krantz, W., Bass, B., Thackeray, C., Lin, H., Chen, D., Dennis, E., Collins, E., Lebo, Z. J., Slinskey E., Graves, S., Biyani, S., Wang, B., <b>Cropper, S.</b>, the Center for Climate Science Team (2024). "An overview of the Western United States Dynamically Downscaled Dataset (WUS-D3)" <em>Geoscientific Model Development</em>. <a href="https://doi.org/10.5194/gmd-17-2265-2024">Access Publication</a></p>
-                    </li>
-                    <li>
-                        <p><b>Cropper, S.</b>, Thackeray, C. W., Emile-Geay, J. (2023). "Revisiting a Constraint on Equilibrium Climate Sensitivity From a Last Millennium Perspective," <em>Geophysical Research Letters</em>. <a href="https://doi.org/10.1029/2023GL104126">Access Publication</a></p>
-                    </li>
-                    <li>
-                        <p><b>Cropper, S.</b>, Solander, K., Newman, B. D., Tuinenburg, O. A., Staal, A., Theeuwen, J. J. E., Xu, C. (2021). "Comparing deuterium excess to large-scale precipitation recycling models in the tropics," <em>npj Climate and Atmospheric Science</em>. <a href="https://doi.org/10.1038/s41612-021-00217-3">Access Publication</a></p>
-                    </li>
-                </ul>
-            </section>
-            <h2>Blog</h2>
-            <section id="blog" class="section">
-                
-            </section>
+            <div class="tabs">
+                <button class="tab-button active" onclick="openTab(event, 'publications')">Publications</button>
+                <button class="tab-button" onclick="openTab(event, 'blog')">Blog</button>
+            </div>
+
+            <div id="publications" class="tab-content active">
+                <section id="publications" class="section">
+                    <h3>2024</h3>
+                    <ul>
+                        <li>
+                            <p>Rodrigues, J. R., Solander, K. C., <b>Cropper, S.</b>, Newman, B. D., Collins, A. D., Warren, J. M., Negron-Juarez, R., Gimenez, B. O., Spanner, G. C., Menezes, V. S., Ríos-Villamizar, E. A., de Oliveira, R. C., Ferreira, S. J. F., & Higuchi, N. (2024). "Soil water percolation and nutrient fluxes as a function of topographical, seasonal and soil texture variation in Central Amazonia, Brazil" <em>Hydrological Processes</em>. <a href="https://doi.org/10.1002/hyp.15148">Access Publication</a></p>
+                        </li>
+                        <li>
+                            <p>Rahimi, S., Huang, L., Norris, J., Hall, A., Goldenson, N., Krantz, W., Bass, B., Thackeray, C., Lin, H., Chen, D., Dennis, E., Collins, E., Lebo, Z. J., Slinskey E., Graves, S., Biyani, S., Wang, B., <b>Cropper, S.</b>, the Center for Climate Science Team (2024). "An overview of the Western United States Dynamically Downscaled Dataset (WUS-D3)" <em>Geoscientific Model Development</em>. <a href="https://doi.org/10.5194/gmd-17-2265-2024">Access Publication</a></p>
+                        </li>
+                    </ul>
+
+                    <h3>2023</h3>
+                    <ul>
+                        <li>
+                            <p><b>Cropper, S.</b>, Thackeray, C. W., Emile-Geay, J. (2023). "Revisiting a Constraint on Equilibrium Climate Sensitivity From a Last Millennium Perspective," <em>Geophysical Research Letters</em>. <a href="https://doi.org/10.1029/2023GL104126">Access Publication</a></p>
+                        </li>
+                    </ul>
+
+                    <h3>2021</h3>
+                    <ul>
+                        <li>
+                            <p><b>Cropper, S.</b>, Solander, K., Newman, B. D., Tuinenburg, O. A., Staal, A., Theeuwen, J. J. E., Xu, C. (2021). "Comparing deuterium excess to large-scale precipitation recycling models in the tropics," <em>npj Climate and Atmospheric Science</em>. <a href="https://doi.org/10.1038/s41612-021-00217-3">Access Publication</a></p>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <div id="blog" class="tab-content">
+                <section id="blog" class="section">
+                    <article>
+                        <h3>Understanding Climate Model Uncertainty: A Machine Learning Approach</h3>
+                        <p class="date">March 15, 2024</p>
+                        <div class="preview">
+                            <p>Climate models are essential tools for understanding and predicting future climate change. However, they come with inherent uncertainties that can make interpretation challenging. In this post, I'll explore how machine learning techniques can help us better understand and potentially reduce these uncertainties.</p>
+                            
+                            <p>One of the key challenges in climate modeling is the wide range of possible outcomes, often referred to as the "spread" in model ensembles. This spread can be attributed to various factors, including:</p>
+                            
+                            <ul>
+                                <li>Parameter uncertainty in physical processes</li>
+                                <li>Model structural uncertainty</li>
+                                <li>Initial condition uncertainty</li>
+                            </ul>
+                        </div>
+                        <a href="blog/climate-model-uncertainty.html" class="read-more">Read More</a>
+                    </article>
+
+                    <article>
+                        <h3>Emergent Constraints: Bridging the Gap Between Models and Observations</h3>
+                        <p class="date">February 28, 2024</p>
+                        <div class="preview">
+                            <p>Emergent constraints have become a powerful tool in climate science, allowing us to reduce uncertainty in climate projections by identifying relationships between observable quantities and future climate change. In this post, I'll discuss how we can leverage these constraints to improve our understanding of climate sensitivity.</p>
+                            
+                            <p>The concept of emergent constraints is based on a simple but powerful idea: if we can find relationships between current climate variability and future climate change that are consistent across models, we can use these relationships to constrain our projections.</p>
+                        </div>
+                        <a href="blog/emergent-constraints.html" class="read-more">Read More</a>
+                    </article>
+
+                    <article>
+                        <h3>The Role of Machine Learning in Climate Science</h3>
+                        <p class="date">February 10, 2024</p>
+                        <div class="preview">
+                            <p>Machine learning is revolutionizing many aspects of climate science, from data analysis to model development. In this post, I'll explore some of the ways we're using machine learning to advance our understanding of climate change.</p>
+                            
+                            <p>One of the most exciting applications is in the analysis of climate model outputs. Machine learning algorithms can help us:</p>
+                            
+                            <ul>
+                                <li>Identify patterns in complex climate data</li>
+                                <li>Improve the efficiency of climate models</li>
+                                <li>Develop better parameterizations of physical processes</li>
+                            </ul>
+                        </div>
+                        <a href="blog/machine-learning-climate.html" class="read-more">Read More</a>
+                    </article>
+
+                    <article>
+                        <h3>Climate Science in the Age of Big Data</h3>
+                        <p class="date">January 25, 2024</p>
+                        <div class="preview">
+                            <p>The field of climate science is experiencing a data revolution. With the increasing availability of high-resolution climate data and the growing power of computational tools, we're able to ask and answer questions that were previously out of reach.</p>
+                            
+                            <p>This wealth of data presents both opportunities and challenges:</p>
+                            
+                            <ul>
+                                <li>More detailed understanding of climate processes</li>
+                                <li>Better validation of climate models</li>
+                                <li>New challenges in data management and analysis</li>
+                            </ul>
+                        </div>
+                        <a href="blog/big-data-climate.html" class="read-more">Read More</a>
+                    </article>
+                </section>
+            </div>
         </div>
     </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var tabcontent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+
+            var tablinks = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
 </body>
 </html>

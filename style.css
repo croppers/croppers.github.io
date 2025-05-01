@@ -17,6 +17,39 @@ body {
 
 .main-content {
     flex: 3;
+    margin-top: 35px;
+}
+
+.tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 5px 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+    color: #666;
+}
+
+.tab-button:hover {
+    color: #333;
+}
+
+.tab-button.active {
+    color: #333;
+    border-bottom: 1px solid #333;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 .profile-section {
@@ -55,33 +88,28 @@ nav ul li a img {
 }
 
 .section {
-    max-height: 300px;
-    overflow-y: auto;
     padding-right: 10px;
 }
 
 #publications {
-    padding-left: 20px;
     position: relative;
-    border-left: 1px solid #e0e0e0;
 }
 
-#publications::-webkit-scrollbar {
-    width: 6px;
+#publications h3 {
+    margin: 1.5em 0 0.5em 0;
+    color: #666;
+    font-size: 1em;
+    font-weight: normal;
 }
 
-#publications::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#publications::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 3px;
+#publications h3:first-child {
+    margin-top: 0;
 }
 
 #publications ul {
     list-style: none;
     padding-left: 0;
+    margin-bottom: 1em;
 }
 
 #publications li {
@@ -92,6 +120,52 @@ nav ul li a img {
 
 #publications li p {
     margin: 0;
+    font-size: 1em;
+}
+
+article {
+    margin-bottom: 2em;
+}
+
+article h3 {
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+article .date {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+article p {
+    margin-bottom: 1em;
+}
+
+article ul {
+    margin: 1em 0;
+    padding-left: 1.5em;
+}
+
+article ul li {
+    margin-bottom: 0.5em;
+}
+
+.read-more {
+    display: inline-block;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 1em;
+    padding: 5px 0;
+}
+
+.read-more:hover {
+    color: #333;
+}
+
+.preview {
+    margin-bottom: 1em;
 }
 
 h1, h2, h3 {
@@ -132,5 +206,64 @@ h1, h2, h3 {
 
     .section {
         max-height: none;
+    }
+
+    /* Blog specific mobile styles */
+    article {
+        margin-bottom: 1.5em;
+    }
+
+    article h3 {
+        font-size: 1.2em;
+        line-height: 1.4;
+    }
+
+    article .date {
+        font-size: 0.85em;
+    }
+
+    article p {
+        font-size: 0.95em;
+        line-height: 1.5;
+    }
+
+    article ul {
+        padding-left: 1.2em;
+    }
+
+    article ul li {
+        font-size: 0.95em;
+        margin-bottom: 0.4em;
+    }
+
+    .read-more {
+        font-size: 0.85em;
+        margin-top: 0.8em;
+    }
+
+    /* Publications specific mobile styles */
+    #publications li {
+        padding-left: 0.3in;
+        text-indent: -0.3in;
+        margin-bottom: 0.8em;
+    }
+
+    #publications li p {
+        font-size: 0.95em;
+        line-height: 1.5;
+    }
+
+    #publications h3 {
+        font-size: 0.95em;
+    }
+
+    /* Tab specific mobile styles */
+    .tabs {
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .tab-button {
+        font-size: 0.95em;
     }
 }
