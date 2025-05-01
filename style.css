@@ -6,47 +6,131 @@ body {
     color: #333;
 }
 
-header, main, footer {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+.container {
+    display: flex;
+    gap: 20px;
 }
 
-img {
-    height: 150px;
-    border-radius: 75px;
+.sidebar {
+    flex: 1;
+}
+
+.main-content {
+    flex: 3;
+}
+
+.profile-section {
+    margin-left: 25px;
+}
+
+.profile-image {
+    width: 150px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    margin-left: 25px;
 }
 
 nav ul li {
-    display: inline;
-    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav ul li a img {
+    width: 1em;
+    height: auto;
+    vertical-align: middle;
+}
+
+.section {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#publications {
+    padding-left: 20px;
+    position: relative;
+    border-left: 1px solid #e0e0e0;
+}
+
+#publications::-webkit-scrollbar {
+    width: 6px;
+}
+
+#publications::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#publications::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+#publications ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#publications li {
+    padding-left: 0.5in;
+    text-indent: -0.5in;
+    margin-bottom: 1em;
+}
+
+#publications li p {
+    margin: 0;
 }
 
 h1, h2, h3 {
     color: #555;
 }
 
-footer {
-    text-align: center;
-    font-size: 0.8em;
-}
-
-@media only screen and (max-width: 600px) {
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
     body {
-        padding: 5px;
+        margin: 10px;
     }
-    header, main, footer {
-        padding: 10px;
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar, .main-content {
+        flex: none;
+        width: 100%;
+    }
+
+    .profile-section {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    nav ul {
+        margin-left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    nav ul li {
+        margin-bottom: 5px;
+    }
+
+    .section {
+        max-height: none;
     }
 }
