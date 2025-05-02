@@ -180,18 +180,25 @@
 
     <script>
         function openTab(evt, tabName) {
+            // Hide all tab content
             var tabcontent = document.getElementsByClassName("tab-content");
             for (var i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.remove("active");
             }
-
+            
+            // Remove active class from all tab buttons
             var tablinks = document.getElementsByClassName("tab-button");
             for (var i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
-
+            
+            // Show the selected tab content and add active class to button
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
+            
+            // Maintain scroll position
+            var scrollPosition = window.pageYOffset;
+            window.scrollTo(0, scrollPosition);
         }
     </script>
 </body>
