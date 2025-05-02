@@ -172,6 +172,64 @@ h1, h2, h3 {
     color: #555;
 }
 
+/* Projects Section */
+.project {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.project h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.project h4 {
+    color: #444;
+    margin: 20px 0 10px;
+    font-size: 1.2em;
+}
+
+.project-content {
+    line-height: 1.6;
+}
+
+.project-content p {
+    margin-bottom: 20px;
+}
+
+.project-content ul {
+    margin: 0 0 20px 20px;
+    padding: 0;
+}
+
+.project-content ul li {
+    margin-bottom: 8px;
+}
+
+.project-links {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.project-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.project-link:hover {
+    background-color: #e0e0e0;
+}
+
 /* Mobile Styles */
 @media only screen and (max-width: 768px) {
     body {
@@ -265,5 +323,18 @@ h1, h2, h3 {
 
     .tab-button {
         font-size: 0.95em;
+    }
+
+    .project {
+        padding: 15px;
+    }
+    
+    .project-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .project-link {
+        text-align: center;
     }
 }

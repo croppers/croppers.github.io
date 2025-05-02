@@ -46,6 +46,7 @@
             <div class="tabs">
                 <button class="tab-button active" onclick="openTab(event, 'publications')">Publications</button>
                 <button class="tab-button" onclick="openTab(event, 'blog')">Blog</button>
+                <button class="tab-button" onclick="openTab(event, 'projects')">Projects</button>
             </div>
 
             <div id="publications" class="tab-content active">
@@ -138,6 +139,39 @@
                             </ul>
                         </div>
                         <a href="blog/big-data-climate.html" class="read-more">Read More</a>
+                    </article>
+                </section>
+            </div>
+
+            <div id="projects" class="tab-content">
+                <section id="projects" class="section">
+                    <article class="project">
+                        <h3>Roof (m²)</h3>
+                        <div class="project-content">
+                            <p>A software tool designed to help homeowners and contractors accurately measure roof areas for solar installation and rainwater harvesting projects. This tool simplifies the process of calculating roof surface area by using satellite imagery and computer vision techniques.</p>
+                            
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Automated roof area calculation using satellite imagery</li>
+                                <li>Support for complex roof geometries</li>
+                                <li>Export measurements in multiple formats</li>
+                                <li>Integration with solar potential calculators</li>
+                                <li>Rainwater harvesting capacity estimates</li>
+                            </ul>
+
+                            <h4>Technical Details</h4>
+                            <ul>
+                                <li>Built with Python and OpenCV</li>
+                                <li>Uses Google Maps API for satellite imagery</li>
+                                <li>Implements machine learning for roof detection</li>
+                                <li>Available as both web application and desktop tool</li>
+                            </ul>
+
+                            <div class="project-links">
+                                <a href="https://github.com/croppers/roof-area" class="project-link">View on GitHub</a>
+                                <a href="https://roof-area.app" class="project-link">Try the Web App</a>
+                            </div>
+                        </div>
                     </article>
                 </section>
             </div>
