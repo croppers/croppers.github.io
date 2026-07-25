@@ -157,7 +157,7 @@ def head(title, description, canonical, extra=""):
     <title>{text(title)} | Stephen Cropper</title>
     <link rel="canonical" href="{canonical}">
     <link rel="stylesheet" href="/style.css">
-    <link rel="icon" href="/img/earth.ico" type="image/x-icon">
+    <link rel="icon" href="/img/earth.ico?v=2" type="image/x-icon">
     <link rel="alternate" type="application/atom+xml" title="Notes by Stephen Cropper" href="/feed.xml">"""
 
 
