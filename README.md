@@ -59,8 +59,14 @@ machine has broken package metadata and cannot import `markdown`.
 ## Previewing
 
 ```bash
-python3 -m http.server 8131
+python3 serve.py        # http://localhost:8131
 ```
 
-Serve from the repository root so `/notes/` and the absolute asset paths
+Serves from the repository root, so `/notes/` and the absolute asset paths
 resolve the way they do in production.
+
+Use this rather than `python3 -m http.server`, which sends no `Cache-Control`
+and lets the browser reuse a stale `style.css` after a rebuild. That one is
+genuinely hard to diagnose &mdash; the markup is right and the stylesheet on
+disk is right, and what you are looking at is the previous stylesheet applied
+to the new page.

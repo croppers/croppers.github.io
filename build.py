@@ -14,6 +14,7 @@ outside a marker pair is left exactly as found.
 
 import html
 import json
+import re
 import shutil
 import sys
 from dataclasses import dataclass
@@ -29,6 +30,27 @@ OUTPUT = ROOT / "notes"
 
 # Beyond this many, the homepage list stops and defers to the notes index.
 HOMEPAGE_NOTES = 5
+
+
+def text(value):
+    """Escape for element content, where quotes need no escaping."""
+    return html.escape(value, quote=False)
+
+
+# smarty handles the body, but front matter never reaches the renderer, so a
+# title would keep straight quotes while the prose under it curled them.
+SMART = (
+    (r"(?<=\w)'(?=\w)", "’"),
+    (r'"([^"]*)"', "“\\1”"),
+    (r"---", "—"),
+    (r"--", "–"),
+)
+
+
+def smarten(value):
+    for pattern, replacement in SMART:
+        value = re.sub(pattern, replacement, value)
+    return value
 
 
 # --------------------------------------------------------------------------
@@ -66,16 +88,16 @@ class Note:
         return f"{self.date:%B} {self.date.day}, {self.date:%Y}"
 
 
-def parse_front_matter(text, source):
+def parse_front_matter(raw, source):
     """Read the leading --- block.
 
     Deliberately not YAML: the fields are flat strings, and a real parser is a
     dependency this site would otherwise not need.
     """
-    if not text.startswith("---"):
+    if not raw.startswith("---"):
         raise ValueError(f"{source}: no front matter")
 
-    _, block, body = text.split("---", 2)
+    _, block, body = raw.split("---", 2)
     fields = {}
     for line in block.strip().splitlines():
         line = line.strip()
@@ -100,9 +122,9 @@ def read_note(path):
     renderer = markdown.Markdown(extensions=["extra", "smarty"])
     return Note(
         slug=path.stem,
-        title=fields["title"],
+        title=smarten(fields["title"]),
         date=datetime.strptime(fields["date"], "%Y-%m-%d"),
-        description=fields["description"],
+        description=smarten(fields["description"]),
         draft=fields.get("draft", "").lower() in ("true", "yes", "1"),
         body=renderer.convert(body),
     )
@@ -132,7 +154,7 @@ def head(title, description, canonical, extra=""):
     <meta property="og:url" content="{canonical}">
     <meta property="og:site_name" content="Stephen Cropper">
     <meta name="twitter:card" content="summary">
-    <title>{html.escape(title)} | Stephen Cropper</title>
+    <title>{text(title)} | Stephen Cropper</title>
     <link rel="canonical" href="{canonical}">
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="/img/earth.ico" type="image/x-icon">
@@ -177,12 +199,12 @@ def render_note_page(note):
     <a class="skip-link" href="#content">Skip to content</a>
 
     <header class="site-header">
-        <p class="breadcrumb"><a href="/">Stephen Cropper</a></p>
+        <p class="breadcrumb"><a href="/">Home</a></p>
     </header>
 
     <main id="content">
         <article class="note">
-{draft_notice}            <h1>{html.escape(note.title)}</h1>
+{draft_notice}            <h1>{text(note.title)}</h1>
             <p class="meta">{note.human_date}</p>
 {note.body}
         </article>
@@ -204,7 +226,7 @@ def render_list(notes, indent):
         flag = " (draft)" if note.draft else ""
         items.append(
             f"{pad}    <li>\n"
-            f'{pad}        <a href="{note.path}">{html.escape(note.title)}</a>\n'
+            f'{pad}        <a href="{note.path}">{text(note.title)}</a>\n'
             f"{pad}        <span>{note.human_date}{flag}</span>\n"
             f"{pad}    </li>"
         )
@@ -229,7 +251,7 @@ def render_notes_index(notes):
     <a class="skip-link" href="#content">Skip to content</a>
 
     <header class="site-header">
-        <p class="breadcrumb"><a href="/">Stephen Cropper</a></p>
+        <p class="breadcrumb"><a href="/">Home</a></p>
     </header>
 
     <main id="content">
@@ -270,11 +292,11 @@ def render_feed(notes):
     updated = notes[0].stamp if notes else datetime.now(timezone.utc).isoformat()
     entries = "\n".join(
         f"""    <entry>
-        <title>{html.escape(note.title)}</title>
+        <title>{text(note.title)}</title>
         <link href="{note.url}"/>
         <id>{note.url}</id>
         <updated>{note.stamp}</updated>
-        <summary>{html.escape(note.description)}</summary>
+        <summary>{text(note.description)}</summary>
     </entry>"""
         for note in notes
     )

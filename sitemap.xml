@@ -7,5 +7,9 @@
         <priority>1.0</priority>
     </url>
     <!-- notes:start -->
+    <url>
+        <loc>https://cropper.info/notes/test-note/</loc>
+        <lastmod>2026-07-24</lastmod>
+    </url>
     <!-- notes:end -->
 </urlset>

@@ -4,9 +4,15 @@
     <link href="https://cropper.info/"/>
     <link rel="self" href="https://cropper.info/feed.xml"/>
     <id>https://cropper.info/</id>
-    <updated>2026-07-25T04:58:59.101676+00:00</updated>
+    <updated>2026-07-24T00:00:00+00:00</updated>
     <author>
         <name>Stephen Cropper</name>
     </author>
-
+    <entry>
+        <title>Test note</title>
+        <link href="https://cropper.info/notes/test-note/"/>
+        <id>https://cropper.info/notes/test-note/</id>
+        <updated>2026-07-24T00:00:00+00:00</updated>
+        <summary>Placeholder content, used to check that notes render correctly on the live site.</summary>
+    </entry>
 </feed>
