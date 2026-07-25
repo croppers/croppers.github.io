@@ -1,11 +1,10 @@
 ---
 title: "Climate Science in the Age of Big Data"
 date: "2024-01-25"
+description: "Stephen Cropper explains how high-resolution data, cloud computing, ensemble analysis, and machine learning are changing climate science."
 ---
 
 The field of climate science is experiencing a data revolution. With the increasing availability of high-resolution climate data and the growing power of computational tools, we're able to ask and answer questions that were previously out of reach.
-
-![Big Data Visualization](../images/big-data.jpg)
 
 ## The Data Deluge
 
@@ -22,8 +21,6 @@ To handle this data deluge, climate scientists are adopting new tools and techno
 1. **Cloud Computing**: Platforms like [Google Earth Engine](https://earthengine.google.com/) and [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/) provide access to petabytes of climate data
 2. **Distributed Computing**: Frameworks like [Dask](https://dask.org/) and [Apache Spark](https://spark.apache.org/) enable parallel processing of large datasets
 3. **Data Visualization**: Tools like [HoloViews](https://holoviews.org/) and [Plotly](https://plotly.com/) help make sense of complex data
-
-![Data Processing Pipeline](../images/data-pipeline.jpg)
 
 ## Impact on Research
 
@@ -46,4 +43,4 @@ While big data presents exciting opportunities, it also brings challenges:
 
 As we continue to develop new methods for handling and analyzing this data, we're gaining new insights into how the climate system works. This is particularly important for understanding regional climate change and its impacts on local communities.
 
-Stay tuned for more posts about how we're using these new tools and data to advance our understanding of climate change. 
+Stay tuned for more posts about how we're using these new tools and data to advance our understanding of climate change.

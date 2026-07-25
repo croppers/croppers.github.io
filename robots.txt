@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cropper.info/sitemap.xml

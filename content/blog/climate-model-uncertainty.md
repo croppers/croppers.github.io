@@ -1,6 +1,7 @@
 ---
 title: "Understanding Climate Model Uncertainty: A Machine Learning Approach"
 date: "2024-03-15"
+description: "Stephen Cropper explains how machine learning can help diagnose climate-model uncertainty and improve the reliability of climate projections."
 ---
 
 Climate models are essential tools for understanding and predicting future climate change. However, they come with inherent uncertainties that can make interpretation challenging. In this post, I'll explore how machine learning techniques can help us better understand and potentially reduce these uncertainties.
@@ -21,4 +22,4 @@ In my recent work, I've been exploring how emergent constraints can be enhanced 
 
 As we continue to develop these methods, I believe we'll see significant improvements in our ability to provide more precise and reliable climate projections. This is crucial for informing policy decisions and adaptation strategies in the face of climate change.
 
-Stay tuned for more updates on this research as we continue to develop and refine these approaches. 
+Stay tuned for more updates on this research as we continue to develop and refine these approaches.

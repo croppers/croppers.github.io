@@ -1,235 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-    <head>
-    <meta name="description" content="Stephen Cropper - Climate Scientist at UCLA, specializing in climate model analysis using emergent constraints and machine learning.">
-    <meta name="keywords" content="Stephen Cropper, Climate Science, UCLA, Climate Models, Machine Learning">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stephen Cropper is a UC Irvine postdoctoral researcher studying regional climate dynamics, climate-model uncertainty, and power-grid modelling with WUS-D3 and PyPSA.">
     <meta name="author" content="Stephen Cropper">
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stephen Cropper | Climate Scientist</title>
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:title" content="Stephen Cropper | UC Irvine Climate Scientist">
+    <meta property="og:description" content="Research, projects, and publications by Stephen Cropper, including WUS-D3 and PyPSA power-grid modelling at UC Irvine.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cropper.info/">
+    <meta property="og:site_name" content="Stephen Cropper">
+    <meta property="og:image" content="https://cropper.info/img/headshot.jpg">
+    <meta property="og:image:alt" content="Portrait of climate scientist Stephen Cropper">
+    <meta name="twitter:card" content="summary">
+    <title>Stephen Cropper | UC Irvine Postdoctoral Researcher</title>
+    <link rel="canonical" href="https://cropper.info/">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/img/earth.ico" type="image/x-icon">
-    <!-- Google tag (gtag.js) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://cropper.info/#website",
+                "url": "https://cropper.info/",
+                "name": "Stephen Cropper",
+                "alternateName": "Cropper.info"
+            },
+            {
+                "@type": "ProfilePage",
+                "@id": "https://cropper.info/#profile",
+                "url": "https://cropper.info/",
+                "name": "Stephen Cropper | UC Irvine Climate Scientist",
+                "isPartOf": {
+                    "@id": "https://cropper.info/#website"
+                },
+                "mainEntity": {
+                    "@id": "https://cropper.info/#stephen-cropper"
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://cropper.info/#stephen-cropper",
+                "name": "Stephen Cropper",
+                "givenName": "Stephen",
+                "familyName": "Cropper",
+                "url": "https://cropper.info/",
+                "image": "https://cropper.info/img/headshot.jpg",
+                "jobTitle": "Postdoctoral Scholar in Earth System Science",
+                "description": "UC Irvine climate scientist studying regional climate dynamics, heat extremes, climate-model uncertainty, climate downscaling, and power-grid modelling with WUS-D3 and PyPSA.",
+                "affiliation": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "University of California, Irvine",
+                    "sameAs": "https://uci.edu/"
+                },
+                "memberOf": {
+                    "@type": "Organization",
+                    "name": "Climate, Pollution, and Solutions",
+                    "url": "https://faculty.sites.uci.edu/freeselab/",
+                    "parentOrganization": {
+                        "@type": "CollegeOrUniversity",
+                        "name": "University of California, Irvine"
+                    }
+                },
+                "knowsAbout": [
+                    "Climate science",
+                    "Regional climate dynamics",
+                    "Heat extremes",
+                    "Climate-model uncertainty",
+                    "Climate downscaling",
+                    "Climate solutions",
+                    "Power-grid modelling",
+                    "PyPSA",
+                    "Western US Dynamically Downscaled Dataset"
+                ],
+                "sameAs": [
+                    "https://www.ess.uci.edu/directory_profiles",
+                    "https://atmos.ucla.edu/author/croppers/",
+                    "https://www.ioes.ucla.edu/person/stephen-cropper/",
+                    "https://github.com/croppers",
+                    "https://orcid.org/0000-0003-1370-363X",
+                    "https://scholar.google.com/citations?user=TDKOII8AAAAJ",
+                    "https://www.researchgate.net/profile/Stephen_Cropper"
+                ]
+            }
+        ]
+    }
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8HENCX2V3G"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-8HENCX2V3G');
+        gtag("js", new Date());
+        gtag("config", "G-8HENCX2V3G");
     </script>
-
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="profile-section">
-                <h1>Stephen Cropper</h1>
-                <p>Graduate Student Researcher<br><a href="https://www.ioes.ucla.edu/climate/">UCLA Center for Climate Science</a></p>
+    <a class="skip-link" href="#content">Skip to content</a>
 
-                <img src="img/headshot.jpg" alt="Stephen Cropper" class="profile-image">
+    <header class="site-header">
+        <h1>Stephen Cropper</h1>
+        <p class="intro">
+            Postdoctoral researcher in
+            <a href="https://www.ess.uci.edu/">Earth System Science at UC Irvine</a>,
+            working with the
+            <a href="https://faculty.sites.uci.edu/freeselab/">Climate, Pollution, and Solutions group</a>.
+            I study regional climate dynamics, heat extremes, climate-model
+            uncertainty, and how weather shapes power systems.
+        </p>
+        <nav aria-label="Primary navigation">
+            <a href="#research">Research</a>
+            <a href="#projects">Projects</a>
+            <a href="#publications">Publications</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main id="content">
+        <section id="research">
+            <h2>Research</h2>
+            <p>
+                My work uses observations, climate-model ensembles, statistical
+                methods, and regional downscaling to understand climate variability
+                and improve projections of regional change. I am especially
+                interested in heat, hydroclimate, emergent constraints, and the
+                separation of forced change from internal variability.
+            </p>
+            <p>
+                I am currently using the
+                <a href="https://registry.opendata.aws/wrf-cmip6/">Western US Dynamically Downscaled Dataset (WUS-D3)</a>
+                with <a href="https://pypsa.org/">PyPSA</a> to explore how climate
+                and weather data can inform power-grid and renewable-energy simulations.
+            </p>
+            <p>
+                I work with UC Irvine's
+                <a href="https://faculty.sites.uci.edu/freeselab/">Climate, Pollution, and Solutions group</a>.
+            </p>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+
+            <article>
+                <h3>
+                    <a href="https://madera-drought-dashboard.vercel.app">
+                        Madera County Drought Dashboard
+                    </a>
+                </h3>
+                <p>
+                    A public information site for Madera County residents whose
+                    domestic well has gone dry or is at risk. It leads with the
+                    agencies to contact, then sets local groundwater storage,
+                    drought category, rainfall, Sierra snowpack, and temperature
+                    against the official records they come from &mdash; each panel
+                    stating plainly what it does not mean.
+                </p>
+                <p class="meta">
+                    California DWR, U.S. Drought Monitor, USDA NRCS, NOAA CPC ·
+                    Python and vanilla JavaScript on Vercel
+                </p>
+            </article>
+
+            <article>
+                <h3><a href="https://roofm2.com">Roof (m²)</a></h3>
+                <p>
+                    A web tool for outlining a roof on satellite imagery and
+                    estimating its solar-energy and rainwater-harvesting potential
+                    from location-specific climate data.
+                </p>
+                <p class="meta">
+                    Next.js, TypeScript, Google Maps, NASA POWER ·
+                    <a href="https://github.com/croppers/roofm2">Source</a>
+                </p>
+            </article>
+        </section>
+
+        <section id="publications">
+            <div class="section-heading">
+                <h2>Selected publications</h2>
+                <a href="https://scholar.google.com/citations?user=TDKOII8AAAAJ">
+                    Google Scholar
+                </a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="https://github.com/croppers"><img src="img/github.png" alt="GitHub"> GitHub</a></li>
-                    <li><a href="https://orcid.org/0000-0003-1370-363X"><img src="img/orcid.png" alt="ORCiD"> ORCiD</a></li>
-                    <li><a href="https://scholar.google.com/citations?user=TDKOII8AAAAJ"><img src="img/google_scholar.png" alt="Google Scholar"> Google Scholar</a></li>
-                    <li><a href="https://www.researchgate.net/profile/Stephen_Cropper"><img src="img/researchgate.png" alt="Research Gate"> Research Gate</a></li>
-                    <li><a href="https://twitter.com/cropper_sj"><img src="img/twitter.png" alt="Twitter"> Twitter</a></li>
-                    <li><a href="mailto:croppers@ucla.edu"><img src="img/email.png" alt="Email"> Email</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="main-content">
-            <div class="tabs">
-                <button class="tab-button active" onclick="openTab(event, 'publications')">Publications</button>
-                <!-- <button class="tab-button" onclick="openTab(event, 'blog')">Blog</button> -->
-                <button class="tab-button" onclick="openTab(event, 'projects')">Projects</button>
-            </div>
+            <!-- publications:start -->
+            <ol class="publication-list">
+                <li>
+                    <a href="https://doi.org/10.1175/JCLI-D-25-0326.1">
+                        <cite>Forced Component Estimation Statistical Method Intercomparison Project (ForceSMIP)</cite>
+                    </a>
+                    <span class="publication-authors">Robert C. J. Wills, Clara Deser, Karen A. McKinnon, …, <strong>Stephen Cropper</strong>, et al.</span>
+                    <span class="publication-meta">Journal of Climate · 2026</span>
+                </li>
+                <li>
+                    <a href="https://arxiv.org/abs/2606.07898">
+                        <cite>Temporal Coverage over Density: Parsimonious Training-Set Design for ML Climate Downscaling</cite>
+                    </a>
+                    <span class="publication-authors">Karandeep Singh, Stefan Rahimi, Chad W. Thackeray, <strong>Stephen Cropper</strong>, Alex Hall</span>
+                    <span class="publication-meta">Preprint · 2026</span>
+                </li>
+                <li>
+                    <a href="https://doi.org/10.1002/hyp.15148">
+                        <cite>Soil water percolation and nutrient fluxes as a function of topographical, seasonal and soil texture variation in Central Amazonia, Brazil</cite>
+                    </a>
+                    <span class="publication-authors">Jardel Ramos Rodrigues, Kurt C. Solander, <strong>Stephen Cropper</strong>, et al.</span>
+                    <span class="publication-meta">Hydrological Processes · 2024</span>
+                </li>
+                <li>
+                    <a href="https://doi.org/10.5194/gmd-17-2265-2024">
+                        <cite>An overview of the Western United States Dynamically Downscaled Dataset (WUS-D3)</cite>
+                    </a>
+                    <span class="publication-authors">Stefan Rahimi, Lei Huang, Jesse Norris, …, <strong>Stephen Cropper</strong>, et al.</span>
+                    <span class="publication-meta">Geoscientific Model Development · 2024</span>
+                </li>
+                <li>
+                    <a href="https://doi.org/10.1029/2023GL104126">
+                        <cite>Revisiting a Constraint on Equilibrium Climate Sensitivity From a Last Millennium Perspective</cite>
+                    </a>
+                    <span class="publication-authors"><strong>Stephen Cropper</strong>, Chad W. Thackeray, Julien Emile-Geay</span>
+                    <span class="publication-meta">Geophysical Research Letters · 2023</span>
+                </li>
+                <li>
+                    <a href="https://doi.org/10.1038/s41612-021-00217-3">
+                        <cite>Comparing deuterium excess to large-scale precipitation recycling models in the tropics</cite>
+                    </a>
+                    <span class="publication-authors"><strong>Stephen Cropper</strong>, Kurt Solander, Brent D. Newman, Obbe A. Tuinenburg, Arie Staal, Jolanda J. E. Theeuwen, Chonggang Xu</span>
+                    <span class="publication-meta">npj Climate and Atmospheric Science · 2021</span>
+                </li>
+            </ol>
+            <!-- publications:end -->
+        </section>
 
-            <div id="publications" class="tab-content active">
-                <section id="publications" class="section">
-                    <h3>2024</h3>
-                    <ul>
-                        <li>
-                            <p>Rodrigues, J. R., Solander, K. C., <b>Cropper, S.</b>, Newman, B. D., Collins, A. D., Warren, J. M., Negron-Juarez, R., Gimenez, B. O., Spanner, G. C., Menezes, V. S., Ríos-Villamizar, E. A., de Oliveira, R. C., Ferreira, S. J. F., & Higuchi, N. (2024). "Soil water percolation and nutrient fluxes as a function of topographical, seasonal and soil texture variation in Central Amazonia, Brazil" <em>Hydrological Processes</em>. <a href="https://doi.org/10.1002/hyp.15148">Access Publication</a></p>
-                        </li>
-                        <li>
-                            <p>Rahimi, S., Huang, L., Norris, J., Hall, A., Goldenson, N., Krantz, W., Bass, B., Thackeray, C., Lin, H., Chen, D., Dennis, E., Collins, E., Lebo, Z. J., Slinskey E., Graves, S., Biyani, S., Wang, B., <b>Cropper, S.</b>, the Center for Climate Science Team (2024). "An overview of the Western United States Dynamically Downscaled Dataset (WUS-D3)" <em>Geoscientific Model Development</em>. <a href="https://doi.org/10.5194/gmd-17-2265-2024">Access Publication</a></p>
-                        </li>
-                    </ul>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>
+                <a href="mailto:croppers@uci.edu">Email</a> ·
+                <a href="https://github.com/croppers">GitHub</a> ·
+                <a href="https://orcid.org/0000-0003-1370-363X">ORCID</a> ·
+                <a href="https://scholar.google.com/citations?user=TDKOII8AAAAJ">Google Scholar</a>
+            </p>
+        </section>
+    </main>
 
-                    <h3>2023</h3>
-                    <ul>
-                        <li>
-                            <p><b>Cropper, S.</b>, Thackeray, C. W., Emile-Geay, J. (2023). "Revisiting a Constraint on Equilibrium Climate Sensitivity From a Last Millennium Perspective," <em>Geophysical Research Letters</em>. <a href="https://doi.org/10.1029/2023GL104126">Access Publication</a></p>
-                        </li>
-                    </ul>
-
-                    <h3>2021</h3>
-                    <ul>
-                        <li>
-                            <p><b>Cropper, S.</b>, Solander, K., Newman, B. D., Tuinenburg, O. A., Staal, A., Theeuwen, J. J. E., Xu, C. (2021). "Comparing deuterium excess to large-scale precipitation recycling models in the tropics," <em>npj Climate and Atmospheric Science</em>. <a href="https://doi.org/10.1038/s41612-021-00217-3">Access Publication</a></p>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-
-            <div id="blog" class="tab-content">
-                <section id="blog" class="section">
-                    <article>
-                        <h3>Understanding Climate Model Uncertainty: A Machine Learning Approach</h3>
-                        <p class="date">March 15, 2024</p>
-                        <div class="preview">
-                            <p>Climate models are essential tools for understanding and predicting future climate change. However, they come with inherent uncertainties that can make interpretation challenging. In this post, I'll explore how machine learning techniques can help us better understand and potentially reduce these uncertainties.</p>
-                            
-                            <p>One of the key challenges in climate modeling is the wide range of possible outcomes, often referred to as the "spread" in model ensembles. This spread can be attributed to various factors, including:</p>
-                            
-                            <ul>
-                                <li>Parameter uncertainty in physical processes</li>
-                                <li>Model structural uncertainty</li>
-                                <li>Initial condition uncertainty</li>
-                            </ul>
-                        </div>
-                        <a href="blog/climate-model-uncertainty.html" class="read-more">Read More</a>
-                    </article>
-
-                    <article>
-                        <h3>Emergent Constraints: Bridging the Gap Between Models and Observations</h3>
-                        <p class="date">February 28, 2024</p>
-                        <div class="preview">
-                            <p>Emergent constraints have become a powerful tool in climate science, allowing us to reduce uncertainty in climate projections by identifying relationships between observable quantities and future climate change. In this post, I'll discuss how we can leverage these constraints to improve our understanding of climate sensitivity.</p>
-                            
-                            <p>The concept of emergent constraints is based on a simple but powerful idea: if we can find relationships between current climate variability and future climate change that are consistent across models, we can use these relationships to constrain our projections.</p>
-                        </div>
-                        <a href="blog/emergent-constraints.html" class="read-more">Read More</a>
-                    </article>
-
-                    <article>
-                        <h3>The Role of Machine Learning in Climate Science</h3>
-                        <p class="date">February 10, 2024</p>
-                        <div class="preview">
-                            <p>Machine learning is revolutionizing many aspects of climate science, from data analysis to model development. In this post, I'll explore some of the ways we're using machine learning to advance our understanding of climate change.</p>
-                            
-                            <p>One of the most exciting applications is in the analysis of climate model outputs. Machine learning algorithms can help us:</p>
-                            
-                            <ul>
-                                <li>Identify patterns in complex climate data</li>
-                                <li>Improve the efficiency of climate models</li>
-                                <li>Develop better parameterizations of physical processes</li>
-                            </ul>
-                        </div>
-                        <a href="blog/machine-learning-climate.html" class="read-more">Read More</a>
-                    </article>
-
-                    <article>
-                        <h3>Climate Science in the Age of Big Data</h3>
-                        <p class="date">January 25, 2024</p>
-                        <div class="preview">
-                            <p>The field of climate science is experiencing a data revolution. With the increasing availability of high-resolution climate data and the growing power of computational tools, we're able to ask and answer questions that were previously out of reach.</p>
-                            
-                            <p>This wealth of data presents both opportunities and challenges:</p>
-                            
-                            <ul>
-                                <li>More detailed understanding of climate processes</li>
-                                <li>Better validation of climate models</li>
-                                <li>New challenges in data management and analysis</li>
-                            </ul>
-                        </div>
-                        <a href="blog/big-data-climate.html" class="read-more">Read More</a>
-                    </article>
-                </section>
-            </div>
-
-            <div id="projects" class="tab-content">
-                <section id="projects" class="section">
-                    <article class="project">
-                        <h3>Roof (m²)</h3>
-                        <div class="project-content">
-                            <p>A full-stack web application designed to help homeowners and installers estimate roof area and analyze climate data for solar and rainwater harvesting potential. Users can outline their roof on satellite imagery and receive detailed calculations of energy production and water collection possibilities.</p>
-                            
-                            <h4>Features</h4>
-                            <ul>
-                                <li>Interactive satellite mapping with polygon drawing tools</li>
-                                <li>Real-time area calculation in metric or imperial units</li>
-                                <li>NASA POWER climate data integration for location-specific analysis</li>
-                                <li>Visualization of monthly solar radiation and precipitation</li>
-                                <li>Downloadable PDF reports with roof outline and climate projections</li>
-                            </ul>
-
-                            <h4>Technical Details</h4>
-                            <ul>
-                                <li>Built with Next.js (React + TypeScript)</li>
-                                <li>Google Maps JavaScript API for satellite imagery and drawing</li>
-                                <li>turf.js for geospatial calculations</li>
-                                <li>Chart.js for interactive data visualization</li>
-                                <li>Tailwind CSS for responsive design</li>
-                            </ul>
-
-                            <div class="project-links">
-                                <a href="https://github.com/croppers/roofm2" class="project-link">View on GitHub</a>
-                                <a href="https://roofm2.com" class="project-link">Try the Web App</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <h3>Madera County Drought Dashboard</h3>
-                        <div class="project-content">
-                            <p>Comprehensive drought and climate monitoring dashboard providing real-time maps, seasonal forecasts, local drought classifications, and ENSO climate patterns for Madera County. This interactive tool helps stakeholders understand current drought conditions and make informed decisions about water resources.</p>
-                            
-                            <h4>Features</h4>
-                            <ul>
-                                <li>Interactive real-time water equivalent data from USDA NWCC</li>
-                                <li>Seasonal drought outlook from NOAA Climate Prediction Center</li>
-                                <li>Local drought intensity monitoring with detailed classifications</li>
-                                <li>ENSO climate forecasting for precipitation patterns</li>
-                                <li>Historical comparison tools for snowpack, soil moisture, and precipitation</li>
-                            </ul>
-
-                            <h4>Technical Details</h4>
-                            <ul>
-                                <li>Integrates data from USDA NRCS, NOAA CPC, and US Drought Monitor</li>
-                                <li>Real-time climate data visualization and analysis</li>
-                                <li>Interactive mapping interface for drought monitoring</li>
-                                <li>Responsive design for accessibility across devices</li>
-                                <li>Collaborative development with CDLS Agroecology Working Group</li>
-                            </ul>
-
-                            <div class="project-links">
-                                <a href="https://madera-drought-dashboard.onrender.com/" class="project-link">Visit Dashboard</a>
-                            </div>
-                        </div>
-                    </article>
-                </section>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openTab(evt, tabName) {
-            // Hide all tab content
-            var tabcontent = document.getElementsByClassName("tab-content");
-            for (var i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            
-            // Remove active class from all tab buttons
-            var tablinks = document.getElementsByClassName("tab-button");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            
-            // Show the selected tab content and add active class to button
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-            
-            // Maintain scroll position
-            var scrollPosition = window.pageYOffset;
-            window.scrollTo(0, scrollPosition);
-        }
-    </script>
 </body>
 </html>

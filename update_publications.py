@@ -1,241 +1,318 @@
 #!/usr/bin/env python3
-"""
-Scrape Google Scholar for publications and update the publications section
-in index.html. Filters to journal articles only (items with a venue/journal).
-Resolves DOIs via CrossRef API.
-"""
+"""Update the title-first publication list in index.html from Google Scholar."""
 
+from __future__ import annotations
+
+import html
 import re
 import time
-import urllib.parse
-import json
 from collections import defaultdict
 
 import requests
 from scholarly import scholarly
 
 SCHOLAR_ID = "TDKOII8AAAAJ"
-AUTHOR_BOLD_NAME = "Cropper, S."
 CROSSREF_API = "https://api.crossref.org/works"
 
-# Manual overrides for publications where Scholar metadata is incomplete.
-# Keyed by a lowercase substring of the title.
 MANUAL_OVERRIDES = {
+    "forced component estimation statistical method intercomparison project": {
+        "authors": [
+            "Robert C. J. Wills",
+            "Clara Deser",
+            "Karen A. McKinnon",
+            "Adam Phillips",
+            "Stephen Po-Chedley",
+            "Sebastian Sippel",
+            "Anna L. Merrifield",
+            "Constantin Bône",
+            "Céline Bonfils",
+            "Gustau Camps-Valls",
+            "Stephen Cropper",
+            "Charlotte Connolly",
+            "Shiheng Duan",
+            "Homer Durand",
+            "Alexander Feigin",
+            "M. A. Fernandez",
+            "Guillaume Gastineau",
+            "Andrei Gavrilov",
+            "Emily Gordon",
+            "Moritz Günther",
+            "Maren Höver",
+            "Sergey Kravtsov",
+            "Yan-Ning Kuo",
+            "Justin Lien",
+            "Gavin D. Madakumbura",
+            "Nathan Mankovich",
+            "Matthew Newman",
+            "Jamin Rader",
+            "Jia-Rui Shi",
+            "Sang-Ik Shin",
+            "Gherardo Varando",
+        ],
+    },
+    "temporal coverage over density": {
+        "journal": "Preprint",
+        "doi": "https://arxiv.org/abs/2606.07898",
+        "authors": [
+            "Karandeep Singh",
+            "Stefan Rahimi",
+            "Chad W. Thackeray",
+            "Stephen Cropper",
+            "Alex Hall",
+        ],
+    },
+    "soil water percolation and nutrient fluxes": {
+        "authors": [
+            "Jardel Ramos Rodrigues",
+            "Kurt C. Solander",
+            "Stephen Cropper",
+            "Brent D. Newman",
+            "Adam D. Collins",
+            "Jeffrey M. Warren",
+            "Robinson Negron-Juarez",
+            "Bruno O. Gimenez",
+            "Gustavo Carvalho Spanner",
+            "Valdiek da Silva Menezes",
+            "Eduardo Antonio Ríos-Villamizar",
+            "Regison Costa de Oliveira",
+            "Sávio José Filgueiras Ferreira",
+            "Niro Higuchi",
+        ],
+    },
     "western united states dynamically downscaled dataset": {
         "journal": "Geoscientific Model Development",
         "doi": "https://doi.org/10.5194/gmd-17-2265-2024",
+        "authors": [
+            "Stefan Rahimi",
+            "Lei Huang",
+            "Jesse Norris",
+            "Alex Hall",
+            "Naomi Goldenson",
+            "Will Krantz",
+            "Benjamin Bass",
+            "Chad Thackeray",
+            "Henry Lin",
+            "Di Chen",
+            "Eli Dennis",
+            "Ethan Collins",
+            "Zachary J. Lebo",
+            "Emily Slinskey",
+            "Sara Graves",
+            "Surabhi Biyani",
+            "Bowen Wang",
+            "Stephen Cropper",
+            "UCLA Center for Climate Science Team",
+        ],
+    },
+    "revisiting a constraint on equilibrium climate sensitivity": {
+        "authors": [
+            "Stephen Cropper",
+            "Chad W. Thackeray",
+            "Julien Emile-Geay",
+        ],
+    },
+    "comparing deuterium excess": {
+        "authors": [
+            "Stephen Cropper",
+            "Kurt Solander",
+            "Brent D. Newman",
+            "Obbe A. Tuinenburg",
+            "Arie Staal",
+            "Jolanda J. E. Theeuwen",
+            "Chonggang Xu",
+        ],
     },
 }
 
-# Author string replacements to fix Scholar metadata quirks.
-# Applied after initial formatting, before bolding.
-AUTHOR_FIXES = {
-    "Team, U. C. f. C. S.": "the Center for Climate Science Team",
-}
-
-# Venues that are conferences/presentations, not peer-reviewed journals
 EXCLUDE_VENUES = re.compile(
-    r"AGU|EGU|Fall Meeting|Spring Meeting|Abstracts|Conference|Symposium|Workshop|Poster|Presentation",
+    r"AGU|EGU|Fall Meeting|Spring Meeting|Abstracts|Conference|Symposium|"
+    r"Workshop|Poster|Presentation",
     re.IGNORECASE,
 )
 
 
-def fetch_publications():
-    """Fetch all publications from Google Scholar profile."""
-    author = scholarly.search_author_id(SCHOLAR_ID)
-    author = scholarly.fill(author, sections=["publications"])
-    pubs = []
-    seen_titles = set()
-    for pub in author.get("publications", []):
-        filled = scholarly.fill(pub)
-        bib = filled.get("bib", {})
+def fetch_publications() -> list[dict[str, str]]:
+    """Fetch unique journal publications from the configured Scholar profile."""
+    author = scholarly.fill(
+        scholarly.search_author_id(SCHOLAR_ID),
+        sections=["publications"],
+    )
+    publications: list[dict[str, str]] = []
+    seen_titles: set[str] = set()
 
-        title = bib.get("title", "")
-        journal = bib.get("journal", "").strip()
-        pub_url = filled.get("pub_url", "")
+    for publication in author.get("publications", []):
+        filled = scholarly.fill(publication)
+        bibliography = filled.get("bib", {})
+        title = str(bibliography.get("title") or "").strip()
+        journal = str(bibliography.get("journal") or "").strip()
+        publication_url = str(filled.get("pub_url") or "").strip()
+        raw_authors = bibliography.get("author") or []
+        if isinstance(raw_authors, list):
+            authors = [str(author).strip() for author in raw_authors if author]
+        elif isinstance(raw_authors, str):
+            authors = [
+                author.strip()
+                for author in raw_authors.split(" and ")
+                if author.strip()
+            ]
+        else:
+            authors = []
 
-        # Check for manual overrides (preferred over Scholar metadata)
         for key, override in MANUAL_OVERRIDES.items():
             if key in title.lower():
-                if "journal" in override:
-                    journal = override["journal"]
-                if "doi" in override:
-                    pub_url = override["doi"]
+                journal = override.get("journal", journal)
+                publication_url = override.get("doi", publication_url)
+                authors = override.get("authors", authors)
                 break
 
-        # Filter: only include entries that have a journal/venue
-        if not journal:
+        if not title or not journal or EXCLUDE_VENUES.search(journal):
             continue
 
-        # Filter: exclude conference abstracts and presentations
-        if EXCLUDE_VENUES.search(journal):
-            continue
-
-        # Deduplicate by normalized title
         title_key = re.sub(r"\W+", " ", title).strip().lower()
         if title_key in seen_titles:
             continue
         seen_titles.add(title_key)
-
-        pubs.append({
-            "title": title,
-            "author": bib.get("author", ""),
-            "year": str(bib.get("pub_year", "")),
-            "journal": journal,
-            "pub_url": pub_url,
-        })
-        # Be polite to Scholar
+        publications.append(
+            {
+                "title": title,
+                "year": str(bibliography.get("pub_year") or "").strip(),
+                "journal": journal,
+                "url": publication_url,
+                "authors": authors,
+            }
+        )
         time.sleep(1)
 
-    return pubs
+    return publications
 
 
-def resolve_doi(title):
-    """Look up a DOI via CrossRef using the article title."""
+def title_similarity(left: str, right: str) -> float:
+    """Return a conservative word-overlap score for two publication titles."""
+    left_words = set(re.findall(r"\w+", left.lower()))
+    right_words = set(re.findall(r"\w+", right.lower()))
+    if not left_words or not right_words:
+        return 0.0
+    return len(left_words & right_words) / max(len(left_words), len(right_words))
+
+
+def resolve_doi(title: str) -> str | None:
+    """Resolve a publication title through Crossref when Scholar has no DOI."""
     try:
-        params = {
-            "query.bibliographic": title,
-            "rows": 1,
-            "select": "DOI,title",
-        }
-        headers = {"User-Agent": "CropperGHPages/1.0 (mailto:croppers@ucla.edu)"}
-        resp = requests.get(CROSSREF_API, params=params, headers=headers, timeout=15)
-        resp.raise_for_status()
-        items = resp.json().get("message", {}).get("items", [])
+        response = requests.get(
+            CROSSREF_API,
+            params={"query.bibliographic": title, "rows": 1, "select": "DOI,title"},
+            headers={
+                "User-Agent": "CropperGHPages/1.0 (mailto:croppers@uci.edu)"
+            },
+            timeout=15,
+        )
+        response.raise_for_status()
+        items = response.json().get("message", {}).get("items", [])
         if items:
-            candidate_title = items[0].get("title", [""])[0].lower()
-            # Accept if titles are reasonably similar
-            if _title_similarity(title.lower(), candidate_title) > 0.75:
-                return "https://doi.org/" + items[0]["DOI"]
-    except Exception:
-        pass
+            candidate = items[0].get("title", [""])[0]
+            if title_similarity(title, candidate) > 0.75:
+                return f"https://doi.org/{items[0]['DOI']}"
+    except (KeyError, IndexError, requests.RequestException, ValueError):
+        return None
     return None
 
 
-def _title_similarity(a, b):
-    """Simple word-overlap similarity between two strings."""
-    words_a = set(re.findall(r"\w+", a))
-    words_b = set(re.findall(r"\w+", b))
-    if not words_a or not words_b:
-        return 0.0
-    intersection = words_a & words_b
-    return len(intersection) / max(len(words_a), len(words_b))
+def publication_url(publication: dict[str, str]) -> str | None:
+    """Prefer a DOI, falling back to Scholar's publication URL."""
+    existing = publication["url"]
+    if "doi.org" in existing:
+        return existing
+    resolved = resolve_doi(publication["title"])
+    time.sleep(0.5)
+    return resolved or existing or None
 
 
-def format_authors(author_str):
-    """Convert Scholar author format to 'LastName, F. I.' style with bolded self."""
-    # Split on " and " to get individual authors
-    authors = [a.strip() for a in author_str.split(" and ") if a.strip()]
-    formatted = []
-    for author in authors:
-        # Scholar typically gives "FirstName LastName" or "F LastName"
-        # Convert to "LastName, F." style
-        parts = author.split()
-        if len(parts) >= 2:
-            last = parts[-1]
-            initials = " ".join(p[0] + "." for p in parts[:-1])
-            name = f"{last}, {initials}"
-        else:
-            name = author
-        # Normalize underscore artifacts (e.g. "C_W" -> "C. W.")
-        name = re.sub(r"(\w)_(\w)", r"\1. \2.", name)
-        formatted.append(name)
-
-    result = ", ".join(formatted)
-
-    # Apply known author fixes
-    for bad, good in AUTHOR_FIXES.items():
-        result = result.replace(bad, good)
-
-    # Bold our author
-    result = re.sub(
-        r"Cropper, S\.\s*(?:J\.)?",
-        "<b>Cropper, S.</b>",
-        result,
-    )
-    return result
+def format_author(author: str) -> str:
+    """Escape an author name and emphasize Stephen Cropper."""
+    escaped = html.escape(author)
+    if re.search(r"\bCropper\b", author, re.IGNORECASE):
+        return f"<strong>{escaped}</strong>"
+    return escaped
 
 
-def build_publications_html(pubs):
-    """Build the HTML for the publications section, grouped by year."""
-    by_year = defaultdict(list)
-    for pub in pubs:
-        by_year[pub["year"]].append(pub)
+def format_authors(authors: list[str]) -> str:
+    """Format complete short lists and compact long collaborations."""
+    if len(authors) <= 7:
+        displayed = authors
+    else:
+        displayed = authors[:3]
+        cropper = next(
+            (author for author in authors if re.search(r"\bCropper\b", author)),
+            None,
+        )
+        if cropper and cropper not in displayed:
+            displayed = [*displayed, "…", cropper]
+        displayed = [*displayed, "et al."]
+    return ", ".join(format_author(author) for author in displayed)
 
-    html_parts = []
-    for year in sorted(by_year.keys(), reverse=True):
-        html_parts.append(f"                    <h3>{year}</h3>")
-        html_parts.append("                    <ul>")
-        for pub in by_year[year]:
-            authors = format_authors(pub["author"])
-            title = pub["title"]
-            journal = pub["journal"]
 
-            # Use pub_url if it's already a DOI (e.g. from manual override),
-            # otherwise resolve via CrossRef
-            if pub["pub_url"] and "doi.org" in pub["pub_url"]:
-                doi_url = pub["pub_url"]
-            else:
-                doi_url = resolve_doi(title)
-                if not doi_url and pub["pub_url"]:
-                    doi_url = pub["pub_url"]
-            # Be polite to CrossRef
-            time.sleep(0.5)
+def build_publications_html(publications: list[dict[str, str]]) -> str:
+    """Build a compact title-first publication list in reverse chronological order."""
+    by_year: defaultdict[str, list[dict[str, str]]] = defaultdict(list)
+    for publication in publications:
+        by_year[publication["year"]].append(publication)
 
-            link_html = ""
-            if doi_url:
-                link_html = f' <a href="{doi_url}">Access Publication</a>'
-
-            html_parts.append("                        <li>")
-            html_parts.append(
-                f'                            <p>{authors} ({year}). '
-                f'"{title}" '
-                f"<em>{journal}</em>.{link_html}</p>"
+    lines = ['            <ol class="publication-list">']
+    for year in sorted(by_year, reverse=True):
+        for publication in by_year[year]:
+            title = html.escape(publication["title"])
+            journal = html.escape(publication["journal"])
+            year_text = html.escape(year)
+            url = publication_url(publication)
+            authors = format_authors(publication.get("authors", []))
+            title_html = f"<cite>{title}</cite>"
+            if url:
+                title_html = f'<a href="{html.escape(url, quote=True)}">{title_html}</a>'
+            lines.extend(
+                [
+                    "                <li>",
+                    f"                    {title_html}",
+                    f'                    <span class="publication-authors">{authors}</span>',
+                    f'                    <span class="publication-meta">{journal} · {year_text}</span>',
+                    "                </li>",
+                ]
             )
-            html_parts.append("                        </li>")
-        html_parts.append("                    </ul>")
-
-    return "\n".join(html_parts)
+    lines.append("            </ol>")
+    return "\n".join(lines)
 
 
-def update_index_html(pub_html):
-    """Replace the publications section in index.html."""
-    with open("index.html", "r", encoding="utf-8") as f:
-        content = f.read()
+def update_index_html(publications_html: str) -> None:
+    """Replace only the generated publication list between stable markers."""
+    with open("index.html", encoding="utf-8") as stream:
+        content = stream.read()
 
-    # Match the inner content of the publications section
     pattern = (
-        r'(<section id="publications" class="section">)\n'
-        r'(.*?)'
-        r'(\n\s*</section>)'
+        r"(?P<start>\s*<!-- publications:start -->)\n"
+        r".*?"
+        r"(?P<end>\n\s*<!-- publications:end -->)"
     )
-    replacement = rf'\1\n{pub_html}\3'
-    new_content, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
+    replacement = (
+        r"\g<start>\n"
+        + publications_html
+        + r"\g<end>"
+    )
+    updated, count = re.subn(pattern, replacement, content, flags=re.DOTALL)
+    if count != 1:
+        raise RuntimeError(
+            f"Expected one publications marker block in index.html, found {count}"
+        )
 
-    if count == 0:
-        raise RuntimeError("Could not find publications section in index.html")
-
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(new_content)
-
-    print(f"Updated index.html with {pub_html.count('<li>')} publications.")
+    with open("index.html", "w", encoding="utf-8") as stream:
+        stream.write(updated)
 
 
-def main():
-    print("Fetching publications from Google Scholar...")
-    pubs = fetch_publications()
-    print(f"Found {len(pubs)} journal publications.")
-
-    if not pubs:
-        print("No publications found — skipping update.")
-        return
-
-    print("Resolving DOIs and building HTML...")
-    pub_html = build_publications_html(pubs)
-
-    print("Updating index.html...")
-    update_index_html(pub_html)
-    print("Done.")
+def main() -> None:
+    print("Fetching journal publications from Google Scholar...")
+    publications = fetch_publications()
+    if not publications:
+        raise RuntimeError("No publications found; index.html was not changed")
+    update_index_html(build_publications_html(publications))
+    print(f"Updated index.html with {len(publications)} publications.")
 
 
 if __name__ == "__main__":

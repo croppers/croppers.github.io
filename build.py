@@ -1,8 +1,9 @@
 import os
+from html import escape
+import json
 import markdown
 import yaml
 from datetime import datetime
-import re
 import shutil
 
 def read_markdown_file(file_path):
@@ -53,9 +54,20 @@ def create_blog_post_html(front_matter, html_content, output_path):
     # Format the date
     date = datetime.strptime(front_matter['date'], '%Y-%m-%d')
     formatted_date = date.strftime('%B %d, %Y')
+    date_iso = date.date().isoformat()
+    description = front_matter['description']
+    slug = os.path.splitext(os.path.basename(output_path))[0]
+    canonical = f'https://cropper.info/blog/{slug}.html'
     
     # Replace placeholders in template
-    html = template.replace('{{title}}', front_matter['title'])
+    html = template.replace('{{title}}', escape(front_matter['title']))
+    html = html.replace('{{description}}', escape(description))
+    html = html.replace('{{canonical}}', escape(canonical))
+    html = html.replace('{{date_iso}}', date_iso)
+    html = html.replace('{{title_json}}', json.dumps(front_matter['title']))
+    html = html.replace('{{description_json}}', json.dumps(description))
+    html = html.replace('{{canonical_json}}', json.dumps(canonical))
+    html = html.replace('{{date_iso_json}}', json.dumps(date_iso))
     html = html.replace('{{date}}', formatted_date)
     html = html.replace('{{content}}', html_content)
     
@@ -74,7 +86,7 @@ def build_blog():
     copy_blog_images()
     
     # Process each markdown file
-    for filename in os.listdir('content/blog'):
+    for filename in sorted(os.listdir('content/blog')):
         if filename.endswith('.md'):
             input_path = os.path.join('content/blog', filename)
             output_path = os.path.join('blog', filename.replace('.md', '.html'))
@@ -88,4 +100,4 @@ def build_blog():
             print(f'Built {output_path}')
 
 if __name__ == '__main__':
-    build_blog() 
+    build_blog()
