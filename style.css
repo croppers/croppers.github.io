@@ -110,7 +110,9 @@ article:last-child {
 }
 
 .meta,
+.breadcrumb,
 .publication-list span,
+.note-list span,
 footer {
     color: #5c5c5c;
     font-size: 0.9rem;
@@ -128,19 +130,27 @@ footer {
     white-space: nowrap;
 }
 
-.publication-list {
+.publication-list,
+.note-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.publication-list li {
+.publication-list li,
+.note-list li {
     margin-bottom: 18px;
 }
 
 .publication-list a,
-.publication-list span {
+.publication-list span,
+.note-list a,
+.note-list span {
     display: block;
+}
+
+.note-list span {
+    margin-top: 2px;
 }
 
 .publication-authors {
@@ -161,12 +171,13 @@ cite {
     font-style: normal;
 }
 
-.blog-post article {
+/* A note is an article, so it has to undo the list-item rules above. */
+article.note {
     padding: 0;
     border: 0;
 }
 
-.blog-post h2 {
+.note h2 {
     margin-top: 40px;
     margin-bottom: 12px;
     font-size: 1.2rem;
@@ -174,9 +185,55 @@ cite {
     letter-spacing: 0;
 }
 
-.blog-post ul,
-.blog-post ol {
+.note h3 {
+    margin-top: 28px;
+}
+
+.note ul,
+.note ol {
     padding-left: 22px;
+}
+
+.note blockquote {
+    margin: 0 0 20px;
+    padding-left: 18px;
+    border-left: 2px solid #d7d7d7;
+    color: #5c5c5c;
+}
+
+.note code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.9em;
+}
+
+.note pre {
+    overflow-x: auto;
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    border: 1px solid #d7d7d7;
+    line-height: 1.5;
+}
+
+.note img {
+    max-width: 100%;
+    height: auto;
+}
+
+.note table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.note th,
+.note td {
+    padding: 6px 10px 6px 0;
+    border-bottom: 1px solid #d7d7d7;
+    text-align: left;
+}
+
+.draft-notice {
+    color: #8a5a00;
+    font-size: 0.9rem;
 }
 
 footer {

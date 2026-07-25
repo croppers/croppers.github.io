@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Notes by Stephen Cropper</title>
+    <link href="https://cropper.info/"/>
+    <link rel="self" href="https://cropper.info/feed.xml"/>
+    <id>https://cropper.info/</id>
+    <updated>2026-07-25T04:58:59.101676+00:00</updated>
+    <author>
+        <name>Stephen Cropper</name>
+    </author>
+
+</feed>

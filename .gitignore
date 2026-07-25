@@ -2,3 +2,4 @@
 .playwright-cli/
 __pycache__/
 output/
+.venv/
