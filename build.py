@@ -316,13 +316,21 @@ def render_feed(notes):
 
 
 def render_sitemap_entries(notes):
-    return "\n".join(
-        f"    <url>\n"
-        f"        <loc>{note.url}</loc>\n"
-        f"        <lastmod>{note.iso_date}</lastmod>\n"
-        f"    </url>"
-        for note in notes
-    )
+    if not notes:
+        return ""
+
+    def entry(loc, lastmod):
+        return (
+            f"    <url>\n"
+            f"        <loc>{loc}</loc>\n"
+            f"        <lastmod>{lastmod}</lastmod>\n"
+            f"    </url>"
+        )
+
+    # The index is a real page and was being left out of the sitemap.
+    rows = [entry(f"{SITE}/notes/", notes[0].iso_date)]
+    rows += [entry(note.url, note.iso_date) for note in notes]
+    return "\n".join(rows)
 
 
 # --------------------------------------------------------------------------
