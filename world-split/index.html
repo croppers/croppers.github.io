@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A live US versus ex-US global equity allocation calculator, anchored to Vanguard VT and rolled forward with VTI and VXUS.">
+    <meta name="author" content="Stephen Cropper">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:title" content="World Equity Split">
+    <meta property="og:description" content="Calculate today's global market-cap allocation between US and ex-US equities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cropper.info/world-split/">
+    <meta property="og:site_name" content="Stephen Cropper">
+    <meta name="twitter:card" content="summary">
+    <title>World Equity Split | Stephen Cropper</title>
+    <link rel="canonical" href="https://cropper.info/world-split/">
+    <link rel="icon" href="/img/earth.ico?v=2" type="image/x-icon">
+    <style>
+        :root {
+            --ink: #172522;
+            --muted: #697773;
+            --paper: #f4f1e8;
+            --card: #fffdf7;
+            --line: #d8d6ce;
+            --us: #164c3f;
+            --us-bright: #2d745f;
+            --ex: #d9a443;
+            --ex-soft: #f2dfb7;
+            --red: #aa4e3f;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: radial-gradient(circle at 80% 8%, rgba(217,164,67,.1), transparent 28rem), var(--paper);
+            font-family: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        button, input { font: inherit; }
+        a { color: inherit; }
+        .site-header {
+            width: min(1180px, calc(100% - 48px));
+            height: 88px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(23,37,34,.17);
+        }
+        .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: .035em; }
+        .brand-mark { display: flex; width: 28px; height: 28px; overflow: hidden; border-radius: 50%; background: var(--ex); }
+        .brand-mark i:first-child { width: 62%; background: var(--us); }
+        .brand-mark i:last-child { width: 38%; background: var(--ex); }
+        .method-link { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+        .hero { width: min(1000px, calc(100% - 48px)); margin: 92px auto 50px; text-align: center; }
+        .eyebrow, .section-number { color: var(--us-bright); font-size: 12px; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
+        h1 { margin: 19px 0 22px; font-family: Iowan Old Style, Baskerville, "Times New Roman", serif; font-size: clamp(56px,8vw,94px); font-weight: 400; letter-spacing: -.052em; line-height: .86; }
+        h1 em { color: var(--us-bright); font-weight: 400; }
+        .lede { max-width: 580px; margin: 0 auto; color: var(--muted); font-size: 17px; line-height: 1.65; }
+        .calculator { width: min(1000px, calc(100% - 48px)); margin: 0 auto 104px; padding: 27px 30px 30px; border: 1px solid rgba(23,37,34,.12); border-radius: 22px; background: var(--card); box-shadow: 0 22px 70px rgba(34,44,37,.09); }
+        .live-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 25px; border-bottom: 1px solid var(--line); }
+        .status { display: flex; align-items: center; gap: 11px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #1d9b68; box-shadow: 0 0 0 5px rgba(29,155,104,.12); }
+        .status-title { font-size: 13px; font-weight: 750; }
+        .status-time { margin-top: 2px; color: var(--muted); font-size: 11px; }
+        .refresh { min-height: 38px; padding: 0 13px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 700; }
+        .refresh:hover { border-color: var(--ink); background: #fff; }
+        .refresh:disabled { opacity: .55; cursor: wait; }
+        .weights { display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(24px,7vw,72px); align-items: center; max-width: 710px; margin: 39px auto 31px; }
+        .weight { display: grid; }
+        .weight:first-child { justify-items: end; }
+        .weight small { margin-bottom: 4px; color: var(--muted); font-size: 11px; font-weight: 750; letter-spacing: .16em; }
+        .weight strong { font-family: Iowan Old Style, Baskerville, "Times New Roman", serif; font-size: clamp(44px,6vw,68px); font-weight: 400; letter-spacing: -.045em; line-height: 1; }
+        .trend { margin-top: 8px; font-size: 10px; font-weight: 700; }
+        .trend.up { color: var(--us-bright); }
+        .trend.down { color: var(--red); }
+        .weight-divider { width: 1px; height: 78px; background: var(--line); }
+        .bar { position: relative; display: flex; height: 16px; overflow: hidden; border-radius: 999px; background: var(--ex-soft); }
+        .bar-us { height: 100%; background: var(--us); transition: width .4s ease; }
+        .legend { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); font-size: 10px; font-weight: 650; }
+        .legend span { display: flex; align-items: center; gap: 6px; }
+        .legend i { width: 7px; height: 7px; border-radius: 50%; background: var(--us); }
+        .legend span:last-child i { background: var(--ex); }
+        .unit-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 24px; color: var(--muted); font-size: 10px; font-weight: 700; }
+        .toggle { display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #f1efe8; }
+        .toggle button { min-height: 30px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; font-weight: 750; }
+        .toggle button.active { color: var(--ink); background: var(--card); box-shadow: 0 1px 4px rgba(23,37,34,.12); }
+        .fields { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 13px; margin-top: 15px; }
+        .amount-field { display: block; min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.56); transition: transform .16s, border-color .16s, box-shadow .16s; }
+        .amount-field:focus-within { transform: translateY(-2px); border-color: var(--us-bright); box-shadow: 0 8px 24px rgba(22,76,63,.09); }
+        .field-head { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-weight: 700; }
+        .us-field .field-head b { color: var(--us-bright); }
+        .ex-field .field-head b { color: #9c6b14; }
+        .input-wrap { display: flex; align-items: baseline; margin-top: 11px; }
+        .prefix, .suffix { color: var(--muted); font-size: 12px; font-weight: 700; }
+        .prefix { margin-right: 5px; }
+        .suffix { margin-left: 6px; }
+        input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: clamp(19px,2.5vw,26px); font-weight: 650; letter-spacing: -.035em; }
+        .price { display: block; min-height: 14px; margin-top: 7px; color: var(--muted); font-size: 9px; font-weight: 650; }
+        .calc-note { margin: 20px 0 0; color: var(--muted); text-align: center; font-size: 10px; }
+        .method { width: min(1000px, calc(100% - 48px)); margin: 0 auto 100px; padding-top: 70px; border-top: 1px solid rgba(23,37,34,.17); display: grid; grid-template-columns: .85fr 1.15fr; gap: 80px; }
+        h2 { max-width: 360px; margin: 15px 0 0; font-family: Iowan Old Style, Baskerville, "Times New Roman", serif; font-size: 45px; font-weight: 400; letter-spacing: -.04em; line-height: 1.03; }
+        .method-copy { color: #46534f; font-size: 14px; line-height: 1.75; }
+        .method-copy > p:first-child { margin-top: 0; }
+        .formula { margin: 28px 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--us); font: 12px/1.6 "SFMono-Regular", Consolas, monospace; }
+        .fine { color: var(--muted); font-size: 10px; line-height: 1.6; }
+        .sources { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+        .sources a { color: var(--us); font-size: 11px; font-weight: 750; text-underline-offset: 4px; }
+        footer { width: min(1180px, calc(100% - 48px)); min-height: 92px; margin: 0 auto; border-top: 1px solid rgba(23,37,34,.17); display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 9px; font-weight: 750; letter-spacing: .12em; }
+        @media (max-width: 720px) {
+            .site-header, .hero, .calculator, .method, footer { width: min(100% - 28px, 1000px); }
+            .site-header { height: 74px; }
+            .hero { margin-top: 66px; }
+            h1 { font-size: clamp(50px,17vw,76px); }
+            .calculator { padding: 22px 18px 24px; border-radius: 18px; }
+            .weights { gap: 16px; }
+            .weight strong { font-size: clamp(40px,12vw,58px); }
+            .fields { grid-template-columns: 1fr 1fr; }
+            .total-field { grid-column: 1 / -1; }
+            .unit-row { justify-content: space-between; }
+            .method { grid-template-columns: 1fr; gap: 38px; padding-top: 56px; }
+        }
+        @media (max-width: 440px) {
+            .lede { font-size: 15px; }
+            .weight-divider { height: 58px; }
+            .weight strong { font-size: 39px; }
+            .trend { display: none; }
+            .fields { grid-template-columns: 1fr; }
+            .total-field { grid-column: auto; }
+            h2 { font-size: 38px; }
+            footer { flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="Back to cropper.info">
+            <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+            <span>World Equity Split</span>
+        </a>
+        <a class="method-link" href="#method">Method</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">Global market-cap allocation</div>
+            <h1>One world.<br><em>Two weights.</em></h1>
+            <p class="lede">Enter any amount. The rest follows today’s investable global equity market split.</p>
+        </section>
+
+        <section class="calculator" aria-label="Allocation calculator">
+            <div class="live-row">
+                <div class="status">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <div>
+                        <div class="status-title" id="status-title">Latest market snapshot</div>
+                        <div class="status-time" id="status-time">Loading current allocation…</div>
+                    </div>
+                </div>
+                <button class="refresh" id="refresh" type="button">Refresh</button>
+            </div>
+
+            <div class="weights">
+                <div class="weight">
+                    <small>US</small>
+                    <strong id="us-weight">62.10%</strong>
+                    <span class="trend" id="us-trend"></span>
+                </div>
+                <div class="weight-divider" aria-hidden="true"></div>
+                <div class="weight">
+                    <small>EX-US</small>
+                    <strong id="ex-weight">37.90%</strong>
+                    <span class="trend" id="ex-trend"></span>
+                </div>
+            </div>
+
+            <div class="bar" role="img" id="bar" aria-label="Global equity split">
+                <span class="bar-us" id="bar-us"></span>
+            </div>
+            <div class="legend"><span><i></i>United States</span><span><i></i>International</span></div>
+
+            <div class="unit-row">
+                <span>Calculate in</span>
+                <div class="toggle" role="group" aria-label="Calculator unit">
+                    <button class="active" id="dollars" type="button" aria-pressed="true">Dollars</button>
+                    <button id="shares" type="button" aria-pressed="false">ETF shares</button>
+                </div>
+            </div>
+
+            <div class="fields">
+                <label class="amount-field total-field">
+                    <span class="field-head"><span id="total-label">Portfolio total</span></span>
+                    <span class="input-wrap"><span class="prefix" id="total-prefix">$</span><input id="total" inputmode="decimal" aria-label="Portfolio total amount"><span class="suffix" id="total-suffix"></span></span>
+                    <span class="price" id="total-price"></span>
+                </label>
+                <label class="amount-field us-field">
+                    <span class="field-head"><span id="us-label">US equities</span><b id="us-field-weight">62.10%</b></span>
+                    <span class="input-wrap"><span class="prefix" id="us-prefix">$</span><input id="us" inputmode="decimal" aria-label="US equities amount"><span class="suffix" id="us-suffix"></span></span>
+                    <span class="price" id="us-price"></span>
+                </label>
+                <label class="amount-field ex-field">
+                    <span class="field-head"><span id="ex-label">Ex-US equities</span><b id="ex-field-weight">37.90%</b></span>
+                    <span class="input-wrap"><span class="prefix" id="ex-prefix">$</span><input id="ex" inputmode="decimal" aria-label="Ex-US equities amount"><span class="suffix" id="ex-suffix"></span></span>
+                    <span class="price" id="ex-price"></span>
+                </label>
+            </div>
+            <p class="calc-note" id="calc-note">Edit any field—every other amount recalculates instantly.</p>
+        </section>
+
+        <section class="method" id="method">
+            <div><span class="section-number">01</span><h2>How the live weight works</h2></div>
+            <div class="method-copy">
+                <p>The baseline is VT’s latest published foreign-holdings weight, a practical proxy for the investable global stock market.</p>
+                <p id="anchor-copy">Each side is rolled forward using the dividend-reinvested return of VTI and VXUS, then normalized back to 100%.</p>
+                <p>In ETF shares mode, VT represents the total-world position being replaced. Current prices convert it into market-value-equivalent VTI and VXUS share counts, including fractional shares.</p>
+                <div class="formula">US weight = (US₀ × VTI total return) ÷ (US₀ × VTI + ex-US₀ × VXUS)</div>
+                <p class="fine">Anchor: Vanguard VT / FTSE Global All Cap Index. Prices: Nasdaq. Distributions and reinvestment prices: Vanguard. The GitHub Pages snapshot refreshes about every five minutes during broad US market hours; scheduled GitHub workflows may occasionally be delayed. This is a market proxy, not investment advice.</p>
+                <div class="sources">
+                    <a href="https://investor.vanguard.com/investment-products/etfs/profile/vt">VT source ↗</a>
+                    <a href="https://www.nasdaq.com/market-activity/etf/vti">VTI quote ↗</a>
+                    <a href="https://www.nasdaq.com/market-activity/etf/vxus">VXUS quote ↗</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer><span>WORLD EQUITY SPLIT</span><span>Built for allocation, not prediction.</span></footer>
+
+    <script>
+        const LOCAL_DATA = "/world-split/data.json";
+        const LIVE_DATA = "https://raw.githubusercontent.com/croppers/croppers.github.io/market-data/world-split/data.json";
+        const money = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const shares = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4});
+        const pct = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        let data = {usWeight: 62.1, exUsWeight: 37.9, anchorUsWeight: 62.1, anchorExUsWeight: 37.9, anchorDate: "2026-06-30", prices: {vt: 154.5, vti: 365.34, vxus: 83.82}, returns: {us: 0, exUs: 0}};
+        let mode = "dollars";
+        let active = "total";
+        let values = derive("total", 10000);
+
+        function derive(field, amount) {
+            const usRate = data.usWeight / 100;
+            const exRate = 1 - usRate;
+            if (field === "total") return {total: amount, us: amount * usRate, ex: amount * exRate};
+            if (field === "us") { const total = amount / usRate; return {total, us: amount, ex: total * exRate}; }
+            const total = amount / exRate; return {total, us: total * usRate, ex: amount};
+        }
+        function fieldPrice(field) { return field === "total" ? data.prices.vt : field === "us" ? data.prices.vti : data.prices.vxus; }
+        function shown(field) { return mode === "dollars" ? values[field] : values[field] / fieldPrice(field); }
+        function parse(value) { return Number(value.replace(/[^0-9.-]/g, "")); }
+        function dateLabel(iso) { return new Intl.DateTimeFormat("en-US", {month: "short", day: "numeric", year: "numeric"}).format(new Date(iso + "T12:00:00")); }
+        function trend(id, value) { const el = document.getElementById(id); el.textContent = `${value >= 0 ? "+" : ""}${value.toFixed(2)}% since anchor`; el.className = `trend ${value >= 0 ? "up" : "down"}`; }
+
+        function render() {
+            document.getElementById("us-weight").textContent = pct.format(data.usWeight) + "%";
+            document.getElementById("ex-weight").textContent = pct.format(data.exUsWeight) + "%";
+            document.getElementById("us-field-weight").textContent = pct.format(data.usWeight) + "%";
+            document.getElementById("ex-field-weight").textContent = pct.format(data.exUsWeight) + "%";
+            document.getElementById("bar-us").style.width = data.usWeight + "%";
+            document.getElementById("bar").setAttribute("aria-label", `${pct.format(data.usWeight)} percent US and ${pct.format(data.exUsWeight)} percent ex-US`);
+            trend("us-trend", data.returns.us);
+            trend("ex-trend", data.returns.exUs);
+            const labels = mode === "dollars" ? ["Portfolio total", "US equities", "Ex-US equities"] : ["VT shares", "VTI shares", "VXUS shares"];
+            ["total", "us", "ex"].forEach((field, index) => {
+                document.getElementById(field + "-label").textContent = labels[index];
+                document.getElementById(field + "-prefix").textContent = mode === "dollars" ? "$" : "";
+                document.getElementById(field + "-suffix").textContent = mode === "shares" ? "sh" : "";
+                document.getElementById(field + "-price").textContent = mode === "shares" ? `${["VT","VTI","VXUS"][index]} at $${money.format(fieldPrice(field))}` : "";
+                const input = document.getElementById(field);
+                if (document.activeElement !== input) input.value = (mode === "dollars" ? money : shares).format(shown(field));
+                input.setAttribute("aria-label", labels[index] + " amount");
+            });
+            document.getElementById("calc-note").textContent = mode === "dollars" ? "Edit any field—every other amount recalculates instantly." : "Fractional shares supported. The allocation is matched by market value.";
+            document.getElementById("anchor-copy").textContent = `From the ${dateLabel(data.anchorDate)} anchor of ${pct.format(data.anchorUsWeight)}% US / ${pct.format(data.anchorExUsWeight)}% ex-US, each side is rolled forward using the dividend-reinvested return of VTI and VXUS, then normalized back to 100%.`;
+        }
+
+        ["total", "us", "ex"].forEach(field => {
+            const input = document.getElementById(field);
+            input.addEventListener("focus", () => { active = field; input.value = shown(field).toFixed(mode === "dollars" ? 2 : 4); input.select(); });
+            input.addEventListener("input", () => { const amount = parse(input.value); if (!Number.isFinite(amount) || amount < 0) return; values = derive(field, mode === "shares" ? amount * fieldPrice(field) : amount); render(); });
+            input.addEventListener("blur", render);
+        });
+
+        function setMode(next) {
+            mode = next;
+            document.activeElement.blur();
+            document.getElementById("dollars").classList.toggle("active", mode === "dollars");
+            document.getElementById("shares").classList.toggle("active", mode === "shares");
+            document.getElementById("dollars").setAttribute("aria-pressed", mode === "dollars");
+            document.getElementById("shares").setAttribute("aria-pressed", mode === "shares");
+            render();
+        }
+        document.getElementById("dollars").addEventListener("click", () => setMode("dollars"));
+        document.getElementById("shares").addEventListener("click", () => setMode("shares"));
+
+        async function loadData() {
+            const button = document.getElementById("refresh");
+            button.disabled = true;
+            button.textContent = "Updating…";
+            const previous = values[active];
+            try {
+                let response = await fetch(LIVE_DATA + "?t=" + Date.now(), {cache: "no-store"});
+                if (!response.ok) response = await fetch(LOCAL_DATA + "?t=" + Date.now(), {cache: "no-store"});
+                if (!response.ok) throw new Error("No market snapshot");
+                data = await response.json();
+                values = derive(active, previous);
+                document.getElementById("status-title").textContent = data.marketStatus === "Open" ? "Market snapshot" : "Latest market price";
+                document.getElementById("status-time").textContent = `${data.quoteTimestamp} · refreshed ~5 min`;
+            } catch (error) {
+                document.getElementById("status-title").textContent = "Published anchor";
+                document.getElementById("status-time").textContent = "Live snapshot temporarily unavailable";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Refresh";
+                render();
+            }
+        }
+        document.getElementById("refresh").addEventListener("click", loadData);
+        render();
+        loadData();
+    </script>
+</body>
+</html>

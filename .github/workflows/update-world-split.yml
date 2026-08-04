@@ -1,0 +1,49 @@
+name: Update world equity split
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every five minutes during broad US market hours, Monday-Friday.
+    - cron: "*/5 13-21 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: world-split-data
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch current allocation
+        run: python world-split/update_data.py /tmp/world-split-data.json
+
+      - name: Publish snapshot branch
+        run: |
+          cp /tmp/world-split-data.json /tmp/world-split-data-copy.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin market-data || true
+          if git show-ref --verify --quiet refs/remotes/origin/market-data; then
+            git checkout -B market-data origin/market-data
+          else
+            git checkout --orphan market-data
+            git rm -rf .
+          fi
+          mkdir -p world-split
+          cp /tmp/world-split-data-copy.json world-split/data.json
+          git add world-split/data.json
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged"
+          else
+            git commit -m "Update world equity split"
+            git push origin market-data
+          fi
