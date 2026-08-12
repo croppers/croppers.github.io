@@ -1,20 +1,20 @@
 {
-  "usWeight": 62.27095008603797,
-  "exUsWeight": 37.72904991396203,
+  "usWeight": 62.28863462386188,
+  "exUsWeight": 37.71136537613812,
   "anchorUsWeight": 62.1,
   "anchorExUsWeight": 37.9,
   "anchorDate": "2026-06-30",
-  "quoteTimestamp": "Aug 12, 2026 11:10 AM ET",
+  "quoteTimestamp": "Aug 12, 2026 12:07 PM ET",
   "marketStatus": "Open",
   "benchmark": "FTSE Global All Cap Index",
   "prices": {
-    "vt": 161.43,
-    "vti": 381.46,
-    "vxus": 87.49
+    "vt": 161.455,
+    "vti": 381.66,
+    "vxus": 87.47
   },
   "returns": {
-    "us": 3.0861528483407064,
-    "exUs": 2.339454907006666
+    "us": 3.140201059344938,
+    "exUs": 2.3160603579366112
   },
-  "fetchedAt": "2026-08-12T15:11:40.070265+00:00"
+  "fetchedAt": "2026-08-12T16:07:51.423091+00:00"
 }
