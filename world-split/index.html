@@ -53,10 +53,8 @@
         .brand-mark i:first-child { width: 62%; background: var(--us); }
         .brand-mark i:last-child { width: 38%; background: var(--ex); }
         .method-link { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 4px; }
-        .hero { width: min(1000px, calc(100% - 48px)); margin: 92px auto 50px; text-align: center; }
+        .hero { width: min(1000px, calc(100% - 48px)); margin: 68px auto 42px; text-align: center; }
         .eyebrow, .section-number { color: var(--us-bright); font-size: 12px; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
-        h1 { margin: 19px 0 22px; font-family: Iowan Old Style, Baskerville, "Times New Roman", serif; font-size: clamp(56px,8vw,94px); font-weight: 400; letter-spacing: -.052em; line-height: .86; }
-        h1 em { color: var(--us-bright); font-weight: 400; }
         .lede { max-width: 580px; margin: 0 auto; color: var(--muted); font-size: 17px; line-height: 1.65; }
         .calculator { width: min(1000px, calc(100% - 48px)); margin: 0 auto 104px; padding: 27px 30px 30px; border: 1px solid rgba(23,37,34,.12); border-radius: 22px; background: var(--card); box-shadow: 0 22px 70px rgba(34,44,37,.09); }
         .live-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 25px; border-bottom: 1px solid var(--line); }
@@ -124,8 +122,7 @@
         @media (max-width: 720px) {
             .site-header, .hero, .calculator, .method, footer { width: min(100% - 28px, 1000px); }
             .site-header { height: 74px; }
-            .hero { margin-top: 66px; }
-            h1 { font-size: clamp(50px,17vw,76px); }
+            .hero { margin-top: 48px; }
             .calculator { padding: 22px 18px 24px; border-radius: 18px; }
             .weights { gap: 16px; }
             .weight strong { font-size: clamp(40px,12vw,58px); }
@@ -158,8 +155,6 @@
 
     <main>
         <section class="hero">
-            <div class="eyebrow">Global market-cap allocation</div>
-            <h1>One world.<br><em>Two weights.</em></h1>
             <p class="lede">Build a four-fund portfolio with a small-cap value tilt while keeping the U.S. and international mix aligned with today’s investable global market.</p>
         </section>
 
@@ -202,10 +197,10 @@
                 <div class="tilt-control">
                     <div class="presets" role="group" aria-label="Small-cap value tilt presets">
                         <button type="button" data-tilt="15">15% light</button>
-                        <button class="active" type="button" data-tilt="20">20% moderate</button>
-                        <button type="button" data-tilt="30">30% aggressive</button>
+                        <button type="button" data-tilt="20">20% moderate</button>
+                        <button class="active" type="button" data-tilt="30">30% aggressive</button>
                     </div>
-                    <label class="tilt-input"><input id="tilt" type="number" min="0" max="100" step="1" value="20" aria-label="Custom small-cap value tilt percentage"><span class="suffix">%</span></label>
+                    <label class="tilt-input"><input id="tilt" type="number" min="0" max="100" step="1" value="30" aria-label="Custom small-cap value tilt percentage"><span class="suffix">%</span></label>
                 </div>
             </div>
 
@@ -224,22 +219,22 @@
                     <span class="price" id="total-price"></span>
                 </label>
                 <label class="amount-field us-field">
-                    <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">49.68%</b></span>
+                    <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">43.47%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vti-prefix">$</span><input id="vti" inputmode="decimal" aria-label="VTI amount"><span class="suffix" id="vti-suffix"></span></span>
                     <span class="price" id="vti-price"></span>
                 </label>
                 <label class="amount-field us-field factor-field">
-                    <span class="field-head"><span id="avuv-label">AVUV · US SCV</span><b id="avuv-field-weight">12.42%</b></span>
+                    <span class="field-head"><span id="avuv-label">AVUV · US SCV</span><b id="avuv-field-weight">18.63%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avuv-prefix">$</span><input id="avuv" inputmode="decimal" aria-label="AVUV amount"><span class="suffix" id="avuv-suffix"></span></span>
                     <span class="price" id="avuv-price"></span>
                 </label>
                 <label class="amount-field ex-field">
-                    <span class="field-head"><span id="vxus-label">VXUS · Intl core</span><b id="vxus-field-weight">30.32%</b></span>
+                    <span class="field-head"><span id="vxus-label">VXUS · Intl core</span><b id="vxus-field-weight">26.53%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vxus-prefix">$</span><input id="vxus" inputmode="decimal" aria-label="VXUS amount"><span class="suffix" id="vxus-suffix"></span></span>
                     <span class="price" id="vxus-price"></span>
                 </label>
                 <label class="amount-field ex-field factor-field">
-                    <span class="field-head"><span id="avdv-label">AVDV · Intl SCV</span><b id="avdv-field-weight">7.58%</b></span>
+                    <span class="field-head"><span id="avdv-label">AVDV · Intl SCV</span><b id="avdv-field-weight">11.37%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avdv-prefix">$</span><input id="avdv" inputmode="decimal" aria-label="AVDV amount"><span class="suffix" id="avdv-suffix"></span></span>
                     <span class="price" id="avdv-price"></span>
                 </label>
@@ -281,7 +276,7 @@
         const pct = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         let data = {usWeight: 62.1, exUsWeight: 37.9, anchorUsWeight: 62.1, anchorExUsWeight: 37.9, anchorDate: "2026-06-30", prices: {vt: 154.5, vti: 365.34, avuv: 110.25, vxus: 83.82, avdv: 85.4}, returns: {us: 0, exUs: 0}};
         let mode = "dollars";
-        let tilt = 20;
+        let tilt = 30;
         let active = "total";
         let values = derive("total", 10000);
 
