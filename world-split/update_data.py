@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Refresh the market snapshot used by the static world-split page."""
 
+import html
 import json
 import re
 import sys
 import urllib.parse
 import urllib.request
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -28,12 +29,61 @@ def get_json(url, headers):
         return json.load(response)
 
 
+def get_text(url, headers):
+    request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return response.read().decode("utf-8")
+
+
 def money(value):
     return float(re.sub(r"[^0-9.-]", "", value or ""))
 
 
 def iso_day(value):
     return value[:10]
+
+
+def trailing_yield(distributions, price):
+    cutoff = date.today() - timedelta(days=365)
+    total = sum(amount for paid, amount in distributions if cutoff <= paid <= date.today())
+    return total / price * 100
+
+
+def avantis_metrics(slug, price):
+    page = get_text(
+        f"https://www.avantisinvestors.com/avantis-investments/{slug}/",
+        NASDAQ_HEADERS,
+    )
+    rows = re.findall(
+        r'asOfDate:"([0-9/]+)",totalPaid:"\$[^"]+",ordinaryDividends:"\$([^"]+)"',
+        page,
+    )
+    if not rows:
+        raise ValueError(f"No distribution history found for {slug}")
+    expense = re.search(r'grossExpenseRatio="([0-9.]+)%"', page)
+    if not expense:
+        raise ValueError(f"No expense ratio found for {slug}")
+    distributions = [
+        (datetime.strptime(paid, "%m/%d/%Y").date(), money(amount))
+        for paid, amount in rows
+    ]
+    return {
+        "dividendYield": trailing_yield(distributions, price),
+        "expenseRatio": float(expense.group(1)),
+    }
+
+
+def vanguard_expense(ticker):
+    page = html.unescape(
+        get_text(
+            f"https://investor.vanguard.com/investment-products/etfs/profile/{ticker.lower()}",
+            NASDAQ_HEADERS,
+        )
+    )
+    expense = re.search(r'"expenseRatio":"([0-9.]+)%?"', page)
+    if not expense:
+        raise ValueError(f"No expense ratio found for {ticker}")
+    return float(expense.group(1))
 
 
 def quote(ticker):
@@ -71,8 +121,13 @@ def market_leg(ticker, fund_id, anchor_date):
 
     share_factor = 1.0
     reinvested = 0
+    trailing_distributions = []
     for item in distributions.get("divCapGain", {}).get("item", []):
         reinvest_date = iso_day(item.get("reinvestmentDate", "0000-00-00"))
+        if item.get("type") == "Dividend" and reinvest_date != "0000-00-00":
+            trailing_distributions.append(
+                (date.fromisoformat(reinvest_date), money(item["perShareAmount"]))
+            )
         if (
             item.get("type") == "Dividend"
             and anchor_date < reinvest_date <= date.today().isoformat()
@@ -87,6 +142,9 @@ def market_leg(ticker, fund_id, anchor_date):
         "anchorPrice": anchor_price,
         "totalReturnFactor": current["price"] * share_factor / anchor_price,
         "distributionsReinvested": reinvested,
+        "trailingYield": trailing_yield(
+            trailing_distributions, current["price"]
+        ),
     }
 
 
@@ -106,6 +164,14 @@ def build_snapshot():
     us_leg = market_leg("VTI", "0970", anchor_date)
     ex_us_leg = market_leg("VXUS", "3369", anchor_date)
     vt = quote("VT")
+    avuv = quote("AVUV")
+    avdv = quote("AVDV")
+    avuv_metrics = avantis_metrics(
+        "avantis-us-small-cap-value-etf", avuv["price"]
+    )
+    avdv_metrics = avantis_metrics(
+        "avantis-international-small-cap-value-etf", avdv["price"]
+    )
 
     rolled_us = anchor_us / 100 * us_leg["totalReturnFactor"]
     rolled_ex_us = foreign / 100 * ex_us_leg["totalReturnFactor"]
@@ -126,6 +192,21 @@ def build_snapshot():
             "vt": vt["price"],
             "vti": us_leg["price"],
             "vxus": ex_us_leg["price"],
+            "avuv": avuv["price"],
+            "avdv": avdv["price"],
+        },
+        "dividendYields": {
+            "vti": us_leg["trailingYield"],
+            "avuv": avuv_metrics["dividendYield"],
+            "vxus": ex_us_leg["trailingYield"],
+            "avdv": avdv_metrics["dividendYield"],
+        },
+        "dividendYieldType": "Trailing 12-month ordinary distributions / current price",
+        "expenseRatios": {
+            "vti": vanguard_expense("VTI"),
+            "avuv": avuv_metrics["expenseRatio"],
+            "vxus": vanguard_expense("VXUS"),
+            "avdv": avdv_metrics["expenseRatio"],
         },
         "returns": {
             "us": (us_leg["totalReturnFactor"] - 1) * 100,
