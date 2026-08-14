@@ -106,6 +106,8 @@ def build_snapshot():
     us_leg = market_leg("VTI", "0970", anchor_date)
     ex_us_leg = market_leg("VXUS", "3369", anchor_date)
     vt = quote("VT")
+    avuv = quote("AVUV")
+    avdv = quote("AVDV")
 
     rolled_us = anchor_us / 100 * us_leg["totalReturnFactor"]
     rolled_ex_us = foreign / 100 * ex_us_leg["totalReturnFactor"]
@@ -126,6 +128,8 @@ def build_snapshot():
             "vt": vt["price"],
             "vti": us_leg["price"],
             "vxus": ex_us_leg["price"],
+            "avuv": avuv["price"],
+            "avdv": avdv["price"],
         },
         "returns": {
             "us": (us_leg["totalReturnFactor"] - 1) * 100,
