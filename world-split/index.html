@@ -106,7 +106,6 @@
         input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: clamp(19px,2.5vw,26px); font-weight: 650; letter-spacing: -.035em; }
         .price { display: block; min-height: 14px; margin-top: 7px; color: var(--muted); font-size: 9px; font-weight: 650; }
         .cost { display: block; min-height: 12px; margin-top: 2px; color: var(--muted); font-size: 9px; }
-        .calc-note { margin: 20px 0 0; color: var(--muted); text-align: center; font-size: 10px; }
         .method { width: min(1000px, calc(100% - 48px)); margin: 0 auto 100px; padding-top: 70px; border-top: 1px solid rgba(23,37,34,.17); }
         .method-copy { max-width: 720px; margin: 0 auto; color: #46534f; font-size: 14px; line-height: 1.75; }
         .method-copy > p:first-child { margin-top: 0; }
@@ -235,7 +234,6 @@
                     <span class="cost" id="avdv-expense">0.36% expense ratio</span>
                 </label>
             </div>
-            <p class="calc-note" id="calc-note">Edit any field—every other amount recalculates instantly.</p>
         </section>
 
         <section class="method" id="method">
@@ -321,7 +319,6 @@
                 if (document.activeElement !== input) input.value = (mode === "dollars" ? money : shares).format(shown(field));
                 input.setAttribute("aria-label", label + " amount");
             });
-            document.getElementById("calc-note").textContent = mode === "dollars" ? "Edit any field—every other amount recalculates instantly." : "Fractional shares supported. The allocation is matched by market value.";
             document.getElementById("anchor-copy").textContent = `From the ${dateLabel(data.anchorDate)} anchor of ${pct.format(data.anchorUsWeight)}% US / ${pct.format(data.anchorExUsWeight)}% international, each side is rolled forward using the dividend-reinvested return of VTI and VXUS, then normalized back to 100%.`;
         }
 
