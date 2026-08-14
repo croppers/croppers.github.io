@@ -207,7 +207,8 @@
                 <label class="amount-field total-field">
                     <span class="field-head"><span id="total-label">Portfolio total</span></span>
                     <span class="input-wrap"><span class="prefix" id="total-prefix">$</span><input id="total" inputmode="decimal" aria-label="Portfolio total amount"><span class="suffix" id="total-suffix"></span></span>
-                    <span class="price" id="total-price"></span>
+                    <span class="price" id="total-price">1.63% weighted TTM dividend yield</span>
+                    <span class="cost" id="total-expense">0.11% weighted expense ratio</span>
                 </label>
                 <label class="amount-field us-field">
                     <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">43.47%</b></span>
@@ -303,6 +304,8 @@
             trend("us-trend", data.returns.us);
             trend("ex-trend", data.returns.exUs);
             const allocation = rates();
+            const portfolioYield = FUNDS.reduce((total, fund) => total + allocation[fund] * data.dividendYields[fund], 0);
+            const portfolioExpense = FUNDS.reduce((total, fund) => total + allocation[fund] * data.expenseRatios[fund], 0);
             FUNDS.forEach(fund => document.getElementById(fund + "-field-weight").textContent = pct.format(allocation[fund] * 100) + "%");
             FIELDS.forEach(field => {
                 const label = mode === "dollars" ? DOLLAR_LABELS[field] : `${TICKERS[field]} shares`;
@@ -311,9 +314,9 @@
                 document.getElementById(field + "-suffix").textContent = mode === "shares" ? "sh" : "";
                 const details = [];
                 if (mode === "shares") details.push(`${TICKERS[field]} at $${money.format(fieldPrice(field))}`);
-                if (field !== "total") details.push(`${pct.format(data.dividendYields[field])}% TTM dividend yield`);
+                details.push(field === "total" ? `${pct.format(portfolioYield)}% weighted TTM dividend yield` : `${pct.format(data.dividendYields[field])}% TTM dividend yield`);
                 document.getElementById(field + "-price").textContent = details.join(" · ");
-                if (field !== "total") document.getElementById(field + "-expense").textContent = `${pct.format(data.expenseRatios[field])}% expense ratio`;
+                document.getElementById(field + "-expense").textContent = field === "total" ? `${pct.format(portfolioExpense)}% weighted expense ratio` : `${pct.format(data.expenseRatios[field])}% expense ratio`;
                 const input = document.getElementById(field);
                 if (document.activeElement !== input) input.value = (mode === "dollars" ? money : shares).format(shown(field));
                 input.setAttribute("aria-label", label + " amount");
