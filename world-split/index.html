@@ -54,7 +54,6 @@
         .brand-mark i:last-child { width: 38%; background: var(--ex); }
         .method-link { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 4px; }
         .hero { width: min(1000px, calc(100% - 48px)); margin: 68px auto 42px; text-align: center; }
-        .eyebrow, .section-number { color: var(--us-bright); font-size: 12px; font-weight: 750; letter-spacing: .18em; text-transform: uppercase; }
         .lede { max-width: 580px; margin: 0 auto; color: var(--muted); font-size: 17px; line-height: 1.65; }
         .calculator { width: min(1000px, calc(100% - 48px)); margin: 0 auto 104px; padding: 27px 30px 30px; border: 1px solid rgba(23,37,34,.12); border-radius: 22px; background: var(--card); box-shadow: 0 22px 70px rgba(34,44,37,.09); }
         .live-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 25px; border-bottom: 1px solid var(--line); }
@@ -110,17 +109,15 @@
         input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: clamp(19px,2.5vw,26px); font-weight: 650; letter-spacing: -.035em; }
         .price { display: block; min-height: 14px; margin-top: 7px; color: var(--muted); font-size: 9px; font-weight: 650; }
         .calc-note { margin: 20px 0 0; color: var(--muted); text-align: center; font-size: 10px; }
-        .method { width: min(1000px, calc(100% - 48px)); margin: 0 auto 100px; padding-top: 70px; border-top: 1px solid rgba(23,37,34,.17); display: grid; grid-template-columns: .85fr 1.15fr; gap: 80px; }
-        h2 { max-width: 360px; margin: 15px 0 0; font-family: Iowan Old Style, Baskerville, "Times New Roman", serif; font-size: 45px; font-weight: 400; letter-spacing: -.04em; line-height: 1.03; }
-        .method-copy { color: #46534f; font-size: 14px; line-height: 1.75; }
+        .method { width: min(1000px, calc(100% - 48px)); margin: 0 auto 100px; padding-top: 70px; border-top: 1px solid rgba(23,37,34,.17); }
+        .method-copy { max-width: 720px; margin: 0 auto; color: #46534f; font-size: 14px; line-height: 1.75; }
         .method-copy > p:first-child { margin-top: 0; }
         .formula { margin: 28px 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--us); font: 12px/1.6 "SFMono-Regular", Consolas, monospace; }
         .fine { color: var(--muted); font-size: 10px; line-height: 1.6; }
         .sources { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
         .sources a { color: var(--us); font-size: 11px; font-weight: 750; text-underline-offset: 4px; }
-        footer { width: min(1180px, calc(100% - 48px)); min-height: 92px; margin: 0 auto; border-top: 1px solid rgba(23,37,34,.17); display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 9px; font-weight: 750; letter-spacing: .12em; }
         @media (max-width: 720px) {
-            .site-header, .hero, .calculator, .method, footer { width: min(100% - 28px, 1000px); }
+            .site-header, .hero, .calculator, .method { width: min(100% - 28px, 1000px); }
             .site-header { height: 74px; }
             .hero { margin-top: 48px; }
             .calculator { padding: 22px 18px 24px; border-radius: 18px; }
@@ -130,7 +127,7 @@
             .tilt-control { align-items: flex-end; flex-direction: column; }
             .fields { grid-template-columns: 1fr 1fr; }
             .unit-row { justify-content: space-between; }
-            .method { grid-template-columns: 1fr; gap: 38px; padding-top: 56px; }
+            .method { padding-top: 56px; }
         }
         @media (max-width: 440px) {
             .lede { font-size: 15px; }
@@ -139,8 +136,6 @@
             .trend { display: none; }
             .fields { grid-template-columns: 1fr; }
             .total-field { grid-column: 1; }
-            h2 { font-size: 38px; }
-            footer { flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; }
         }
     </style>
 </head>
@@ -221,36 +216,35 @@
                 <label class="amount-field us-field">
                     <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">43.47%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vti-prefix">$</span><input id="vti" inputmode="decimal" aria-label="VTI amount"><span class="suffix" id="vti-suffix"></span></span>
-                    <span class="price" id="vti-price"></span>
+                    <span class="price" id="vti-price">1.02% TTM dividend yield</span>
                 </label>
                 <label class="amount-field us-field factor-field">
                     <span class="field-head"><span id="avuv-label">AVUV · US SCV</span><b id="avuv-field-weight">18.63%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avuv-prefix">$</span><input id="avuv" inputmode="decimal" aria-label="AVUV amount"><span class="suffix" id="avuv-suffix"></span></span>
-                    <span class="price" id="avuv-price"></span>
+                    <span class="price" id="avuv-price">1.21% TTM dividend yield</span>
                 </label>
                 <label class="amount-field ex-field">
                     <span class="field-head"><span id="vxus-label">VXUS · Intl core</span><b id="vxus-field-weight">26.53%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vxus-prefix">$</span><input id="vxus" inputmode="decimal" aria-label="VXUS amount"><span class="suffix" id="vxus-suffix"></span></span>
-                    <span class="price" id="vxus-price"></span>
+                    <span class="price" id="vxus-price">2.50% TTM dividend yield</span>
                 </label>
                 <label class="amount-field ex-field factor-field">
                     <span class="field-head"><span id="avdv-label">AVDV · Intl SCV</span><b id="avdv-field-weight">11.37%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avdv-prefix">$</span><input id="avdv" inputmode="decimal" aria-label="AVDV amount"><span class="suffix" id="avdv-suffix"></span></span>
-                    <span class="price" id="avdv-price"></span>
+                    <span class="price" id="avdv-price">2.64% TTM dividend yield</span>
                 </label>
             </div>
             <p class="calc-note" id="calc-note">Edit any field—every other amount recalculates instantly.</p>
         </section>
 
         <section class="method" id="method">
-            <div><span class="section-number">01</span><h2>A factor tilt without a geographic bet</h2></div>
             <div class="method-copy">
                 <p>The portfolio holds the same U.S. and international proportions as the investable global market. Within each region, your chosen tilt determines how much moves from the broad-market core into small-cap value.</p>
                 <p id="anchor-copy">The live geographic split begins with VT’s latest published foreign-holdings weight, then rolls each side forward using the dividend-reinvested return of VTI and VXUS.</p>
                 <p>Because AVUV and AVDV use the same tilt inside their respective regions, the factor allocation scales in lockstep with global market capitalizations instead of introducing a separate regional bet.</p>
                 <div class="formula">VTI = (1 − T) × W<sub>US</sub><br>AVUV = T × W<sub>US</sub><br>VXUS = (1 − T) × W<sub>Intl</sub><br>AVDV = T × W<sub>Intl</sub></div>
                 <p>In ETF shares mode, VT represents the total-world position being allocated. Live prices convert that market value into fractional shares of all four funds.</p>
-                <p class="fine">Anchor: Vanguard VT / FTSE Global All Cap Index. Prices: Nasdaq. Distributions and reinvestment prices: Vanguard. The snapshot refreshes about every five minutes during broad U.S. market hours; scheduled updates may occasionally be delayed. AVDV covers developed international small-cap value and does not include emerging markets, so factor exposure is not perfectly comprehensive across every country. This calculator is informational, not investment advice.</p>
+                <p class="fine">Anchor: Vanguard VT / FTSE Global All Cap Index. Prices: Nasdaq. Distributions: Vanguard and Avantis. TTM dividend yield is the last 12 months of ordinary distributions divided by the current market price. The snapshot refreshes about every five minutes during broad U.S. market hours; scheduled updates may occasionally be delayed. AVDV covers developed international small-cap value and does not include emerging markets, so factor exposure is not perfectly comprehensive across every country. This calculator is informational, not investment advice.</p>
                 <div class="sources">
                     <a href="https://investor.vanguard.com/investment-products/etfs/profile/vt">VT source ↗</a>
                     <a href="https://www.nasdaq.com/market-activity/etf/vti">VTI quote ↗</a>
@@ -262,8 +256,6 @@
         </section>
     </main>
 
-    <footer><span>WORLD EQUITY SPLIT</span><span>Built for allocation, not prediction.</span></footer>
-
     <script>
         const LOCAL_DATA = "/world-split/data.json";
         const LIVE_DATA = "https://raw.githubusercontent.com/croppers/croppers.github.io/market-data/world-split/data.json";
@@ -274,7 +266,7 @@
         const money = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         const shares = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 4});
         const pct = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        let data = {usWeight: 62.1, exUsWeight: 37.9, anchorUsWeight: 62.1, anchorExUsWeight: 37.9, anchorDate: "2026-06-30", prices: {vt: 154.5, vti: 365.34, avuv: 110.25, vxus: 83.82, avdv: 85.4}, returns: {us: 0, exUs: 0}};
+        let data = {usWeight: 62.1, exUsWeight: 37.9, anchorUsWeight: 62.1, anchorExUsWeight: 37.9, anchorDate: "2026-06-30", prices: {vt: 154.5, vti: 365.34, avuv: 110.25, vxus: 83.82, avdv: 85.4}, dividendYields: {vti: 1.02, avuv: 1.21, vxus: 2.5, avdv: 2.64}, returns: {us: 0, exUs: 0}};
         let mode = "dollars";
         let tilt = 30;
         let active = "total";
@@ -317,7 +309,10 @@
                 document.getElementById(field + "-label").textContent = label;
                 document.getElementById(field + "-prefix").textContent = mode === "dollars" ? "$" : "";
                 document.getElementById(field + "-suffix").textContent = mode === "shares" ? "sh" : "";
-                document.getElementById(field + "-price").textContent = mode === "shares" ? `${TICKERS[field]} at $${money.format(fieldPrice(field))}` : "";
+                const details = [];
+                if (mode === "shares") details.push(`${TICKERS[field]} at $${money.format(fieldPrice(field))}`);
+                if (field !== "total") details.push(`${pct.format(data.dividendYields[field])}% TTM dividend yield`);
+                document.getElementById(field + "-price").textContent = details.join(" · ");
                 const input = document.getElementById(field);
                 if (document.activeElement !== input) input.value = (mode === "dollars" ? money : shares).format(shown(field));
                 input.setAttribute("aria-label", label + " amount");
@@ -369,6 +364,7 @@
             if (!response.ok) throw new Error("No market snapshot");
             const snapshot = await response.json();
             if (!["vt", "vti", "avuv", "vxus", "avdv"].every(ticker => Number.isFinite(snapshot.prices?.[ticker]))) throw new Error("Incomplete market snapshot");
+            if (!FUNDS.every(ticker => Number.isFinite(snapshot.dividendYields?.[ticker]))) throw new Error("Incomplete dividend data");
             return snapshot;
         }
 
