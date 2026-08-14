@@ -83,12 +83,9 @@
         .tilt-copy strong { display: block; font-size: 13px; }
         .tilt-copy span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
         .tilt-control { display: flex; align-items: center; gap: 8px; }
-        .presets { display: inline-grid; grid-template-columns: repeat(3, 1fr); padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #f1efe8; }
+        .presets { display: inline-grid; grid-template-columns: repeat(2, 1fr); padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #f1efe8; }
         .presets button { min-height: 30px; padding: 0 11px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; font-weight: 750; }
         .presets button.active { color: var(--ink); background: var(--card); box-shadow: 0 1px 4px rgba(23,37,34,.12); }
-        .tilt-input { display: flex; align-items: baseline; width: 78px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.65); }
-        .tilt-input:focus-within { border-color: var(--us-bright); }
-        .tilt-input input { font-size: 15px; text-align: right; }
         .unit-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 24px; color: var(--muted); font-size: 10px; font-weight: 700; }
         .toggle { display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #f1efe8; }
         .toggle button { min-height: 30px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; font-weight: 750; }
@@ -190,12 +187,10 @@
                     <span>Share of each geographic sleeve allocated to AVUV or AVDV</span>
                 </div>
                 <div class="tilt-control">
-                    <div class="presets" role="group" aria-label="Small-cap value tilt presets">
-                        <button type="button" data-tilt="15">15% light</button>
-                        <button type="button" data-tilt="20">20% moderate</button>
-                        <button class="active" type="button" data-tilt="30">30% aggressive</button>
+                    <div class="presets" role="group" aria-label="Small-cap value tilt">
+                        <button class="active" type="button" data-tilt="30" aria-pressed="true">30%</button>
+                        <button type="button" data-tilt="0" aria-pressed="false">0%</button>
                     </div>
-                    <label class="tilt-input"><input id="tilt" type="number" min="0" max="100" step="1" value="30" aria-label="Custom small-cap value tilt percentage"><span class="suffix">%</span></label>
                 </div>
             </div>
 
@@ -337,15 +332,16 @@
             const parsed = Number(next);
             if (!Number.isFinite(parsed)) return;
             tilt = Math.min(100, Math.max(0, parsed));
-            document.getElementById("tilt").value = String(tilt);
-            document.querySelectorAll("[data-tilt]").forEach(button => button.classList.toggle("active", Number(button.dataset.tilt) === tilt));
+            document.querySelectorAll("[data-tilt]").forEach(button => {
+                const selected = Number(button.dataset.tilt) === tilt;
+                button.classList.toggle("active", selected);
+                button.setAttribute("aria-pressed", selected);
+            });
             values = derive("total", values.total);
             active = "total";
             render();
         }
         document.querySelectorAll("[data-tilt]").forEach(button => button.addEventListener("click", () => setTilt(button.dataset.tilt)));
-        document.getElementById("tilt").addEventListener("input", event => { if (event.target.value !== "") setTilt(event.target.value); });
-        document.getElementById("tilt").addEventListener("blur", () => { document.getElementById("tilt").value = String(tilt); });
 
         function setMode(next) {
             mode = next;
