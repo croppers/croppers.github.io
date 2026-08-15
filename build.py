@@ -2,8 +2,9 @@
 
 Notes live in content/notes/<slug>.md. Each becomes /notes/<slug>/, so the URL
 never carries a file extension and survives a change of generator. One piece of
-front matter feeds the note page, the homepage list, the notes index, the
-sitemap and the feed, so a title or a date is only ever typed once.
+front matter feeds the note page, the notes index, the sitemap and the feed.
+The homepage's Substack section is hand-written and is not replaced by this
+script.
 
     ./.venv/bin/python build.py           # publish
     ./.venv/bin/python build.py --drafts  # include drafts, marked noindex
@@ -27,10 +28,6 @@ SITE = "https://cropper.info"
 ROOT = Path(__file__).parent
 SOURCE = ROOT / "content" / "notes"
 OUTPUT = ROOT / "notes"
-
-# Beyond this many, the homepage list stops and defers to the notes index.
-HOMEPAGE_NOTES = 5
-
 
 def text(value):
     """Escape for element content, where quotes need no escaping."""
@@ -219,7 +216,7 @@ def render_note_page(note):
 
 
 def render_list(notes, indent):
-    """The one list shape used on the homepage and the notes index."""
+    """Render the notes index list."""
     pad = " " * indent
     items = []
     for note in notes:
@@ -263,29 +260,6 @@ def render_notes_index(notes):
 </body>
 </html>
 """
-
-
-def render_homepage_section(notes):
-    if not notes:
-        return ""
-
-    shown = notes[:HOMEPAGE_NOTES]
-    if len(notes) > len(shown):
-        heading = (
-            '            <div class="section-heading">\n'
-            "                <h2>Notes</h2>\n"
-            '                <a href="/notes/">All notes</a>\n'
-            "            </div>"
-        )
-    else:
-        heading = "            <h2>Notes</h2>"
-
-    return (
-        '        <section id="notes">\n'
-        f"{heading}\n"
-        f"{render_list(shown, 12)}\n"
-        "        </section>"
-    )
 
 
 def render_feed(notes):
@@ -376,9 +350,6 @@ def build(include_drafts=False):
 
     published = [note for note in notes if not note.draft]
     (ROOT / "feed.xml").write_text(render_feed(published), encoding="utf-8")
-    replace_between_markers(
-        ROOT / "index.html", "notes", render_homepage_section(notes)
-    )
     replace_between_markers(
         ROOT / "sitemap.xml", "notes", render_sitemap_entries(published)
     )

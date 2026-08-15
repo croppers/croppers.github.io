@@ -1,8 +1,9 @@
 # cropper.info
 
 A hand-written static site published by GitHub Pages from `main` at `/`.
-`index.html` and `style.css` are edited directly. Two things are generated:
-the publication list and the notes.
+`index.html` and `style.css` are edited directly. The publication list and
+the local notes archive are generated. The homepage links to the Substack page
+instead of listing local notes.
 
 ## Writing a note
 
@@ -27,16 +28,14 @@ Then build and commit:
 ```
 
 That writes `/notes/<slug>/index.html`, rebuilds `/notes/`, refreshes
-`feed.xml`, and updates the note list inside `index.html` and `sitemap.xml`.
-Only the regions between the `<!-- notes:start -->` and `<!-- notes:end -->`
-comments are touched; everything else in those files is left alone.
+`feed.xml`, and updates the notes entries in `sitemap.xml`. The homepage
+Substack section is hand-written and is left alone.
 
 Add `draft: true` to the front matter to keep a note out of the homepage,
 the sitemap and the feed. `build.py --drafts` renders drafts locally so you
 can read them; those pages carry `noindex`, and should not be committed.
 
-The homepage shows the five most recent notes and links to `/notes/` for the
-rest.
+The homepage's Substack section links to `https://page.substack.com/`.
 
 ## Updating publications
 
