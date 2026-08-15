@@ -188,8 +188,8 @@
                 </div>
                 <div class="tilt-control">
                     <div class="presets" role="group" aria-label="Small-cap value tilt">
-                        <button class="active" type="button" data-tilt="30" aria-pressed="true">30%</button>
-                        <button type="button" data-tilt="0" aria-pressed="false">0%</button>
+                        <button type="button" data-tilt="30" aria-pressed="false">30%</button>
+                        <button class="active" type="button" data-tilt="0" aria-pressed="true">0%</button>
                     </div>
                 </div>
             </div>
@@ -206,29 +206,29 @@
                 <label class="amount-field total-field">
                     <span class="field-head"><span id="total-label">Portfolio total</span></span>
                     <span class="input-wrap"><span class="prefix" id="total-prefix">$</span><input id="total" inputmode="decimal" aria-label="Portfolio total amount"><span class="suffix" id="total-suffix"></span></span>
-                    <span class="price" id="total-price">1.63% weighted TTM dividend yield</span>
-                    <span class="cost" id="total-expense">0.11% weighted expense ratio</span>
+                    <span class="price" id="total-price">1.58% weighted TTM dividend yield</span>
+                    <span class="cost" id="total-expense">0.04% weighted expense ratio</span>
                 </label>
                 <label class="amount-field us-field">
-                    <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">43.47%</b></span>
+                    <span class="field-head"><span id="vti-label">VTI · US core</span><b id="vti-field-weight">62.10%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vti-prefix">$</span><input id="vti" inputmode="decimal" aria-label="VTI amount"><span class="suffix" id="vti-suffix"></span></span>
                     <span class="price" id="vti-price">1.02% TTM dividend yield</span>
                     <span class="cost" id="vti-expense">0.03% expense ratio</span>
                 </label>
                 <label class="amount-field us-field factor-field">
-                    <span class="field-head"><span id="avuv-label">AVUV · US SCV</span><b id="avuv-field-weight">18.63%</b></span>
+                    <span class="field-head"><span id="avuv-label">AVUV · US SCV</span><b id="avuv-field-weight">0.00%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avuv-prefix">$</span><input id="avuv" inputmode="decimal" aria-label="AVUV amount"><span class="suffix" id="avuv-suffix"></span></span>
                     <span class="price" id="avuv-price">1.21% TTM dividend yield</span>
                     <span class="cost" id="avuv-expense">0.25% expense ratio</span>
                 </label>
                 <label class="amount-field ex-field">
-                    <span class="field-head"><span id="vxus-label">VXUS · Intl core</span><b id="vxus-field-weight">26.53%</b></span>
+                    <span class="field-head"><span id="vxus-label">VXUS · Intl core</span><b id="vxus-field-weight">37.90%</b></span>
                     <span class="input-wrap"><span class="prefix" id="vxus-prefix">$</span><input id="vxus" inputmode="decimal" aria-label="VXUS amount"><span class="suffix" id="vxus-suffix"></span></span>
                     <span class="price" id="vxus-price">2.50% TTM dividend yield</span>
                     <span class="cost" id="vxus-expense">0.05% expense ratio</span>
                 </label>
                 <label class="amount-field ex-field factor-field">
-                    <span class="field-head"><span id="avdv-label">AVDV · Intl SCV</span><b id="avdv-field-weight">11.37%</b></span>
+                    <span class="field-head"><span id="avdv-label">AVDV · Intl SCV</span><b id="avdv-field-weight">0.00%</b></span>
                     <span class="input-wrap"><span class="prefix" id="avdv-prefix">$</span><input id="avdv" inputmode="decimal" aria-label="AVDV amount"><span class="suffix" id="avdv-suffix"></span></span>
                     <span class="price" id="avdv-price">2.64% TTM dividend yield</span>
                     <span class="cost" id="avdv-expense">0.36% expense ratio</span>
@@ -267,7 +267,7 @@
         const pct = new Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         let data = {usWeight: 62.1, exUsWeight: 37.9, anchorUsWeight: 62.1, anchorExUsWeight: 37.9, anchorDate: "2026-06-30", prices: {vt: 154.5, vti: 365.34, avuv: 110.25, vxus: 83.82, avdv: 85.4}, dividendYields: {vti: 1.02, avuv: 1.21, vxus: 2.5, avdv: 2.64}, expenseRatios: {vti: 0.03, avuv: 0.25, vxus: 0.05, avdv: 0.36}, returns: {us: 0, exUs: 0}};
         let mode = "dollars";
-        let tilt = 30;
+        let tilt = 0;
         let active = "total";
         let values = derive("total", 10000);
 
