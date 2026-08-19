@@ -1,23 +1,23 @@
 {
-  "usWeight": 62.458644984859916,
-  "exUsWeight": 37.541355015140084,
+  "usWeight": 62.39739254709288,
+  "exUsWeight": 37.60260745290712,
   "anchorUsWeight": 62.3,
   "anchorExUsWeight": 37.7,
   "anchorDate": "2026-07-31",
-  "quoteTimestamp": "Aug 19, 2026 4:59 PM ET",
+  "quoteTimestamp": "Aug 19, 2026 5:22 PM ET",
   "marketStatus": "After-Hours",
   "benchmark": "FTSE Global All Cap Index",
   "prices": {
-    "vt": 161.1,
-    "vti": 380.1736,
-    "vxus": 86.75,
-    "avuv": 127.0,
+    "vt": 161.5,
+    "vti": 380.1,
+    "vxus": 86.96,
+    "avuv": 128.0,
     "avdv": 110.71
   },
   "dividendYields": {
-    "vti": 1.0258208355340823,
-    "avuv": 1.2292913385826771,
-    "vxus": 2.5226512968299715,
+    "vti": 1.026019468560905,
+    "avuv": 1.2196875,
+    "vxus": 2.516559337626495,
     "avdv": 2.6472766687742753
   },
   "dividendYieldType": "Trailing 12-month ordinary distributions / current price",
@@ -28,8 +28,8 @@
     "avdv": 0.36
   },
   "returns": {
-    "us": 3.249124141115134,
-    "exUs": 2.5534933207234767
+    "us": 3.229135547649453,
+    "exUs": 2.801749615793825
   },
-  "fetchedAt": "2026-08-19T20:59:50.473514+00:00"
+  "fetchedAt": "2026-08-19T21:23:05.951265+00:00"
 }
