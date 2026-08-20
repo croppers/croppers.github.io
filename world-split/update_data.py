@@ -5,6 +5,8 @@ import html
 import json
 import re
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
@@ -14,6 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 OUTPUT = ROOT / "data.json"
 VANGUARD_HEADERS = {"Accept": "application/json"}
+VANGUARD_EXPENSE_FALLBACKS = {
+    "VTI": 0.03,
+    "VXUS": 0.05,
+}
 NASDAQ_HEADERS = {
     "Accept": "application/json, text/plain, */*",
     "User-Agent": (
@@ -29,10 +35,25 @@ def get_json(url, headers):
         return json.load(response)
 
 
-def get_text(url, headers):
+def get_text(url, headers, attempts=3):
+    """Fetch text while tolerating short-lived upstream failures."""
     request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return response.read().decode("utf-8")
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return response.read().decode("utf-8")
+        except urllib.error.HTTPError as error:
+            if error.code not in {404, 408, 425, 429, 500, 502, 503, 504}:
+                raise
+            last_error = error
+        except (urllib.error.URLError, TimeoutError) as error:
+            last_error = error
+
+        if attempt + 1 < attempts:
+            time.sleep(2**attempt)
+
+    raise last_error
 
 
 def money(value):
@@ -74,15 +95,30 @@ def avantis_metrics(slug, price):
 
 
 def vanguard_expense(ticker):
-    page = html.unescape(
-        get_text(
-            f"https://investor.vanguard.com/investment-products/etfs/profile/{ticker.lower()}",
-            NASDAQ_HEADERS,
+    fallback = VANGUARD_EXPENSE_FALLBACKS[ticker]
+    try:
+        page = html.unescape(
+            get_text(
+                f"https://investor.vanguard.com/investment-products/etfs/profile/{ticker.lower()}",
+                NASDAQ_HEADERS,
+            )
         )
-    )
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as error:
+        print(
+            f"Warning: Vanguard expense ratio unavailable for {ticker} "
+            f"({error}); using last-known sponsor value {fallback:.2f}%",
+            file=sys.stderr,
+        )
+        return fallback
+
     expense = re.search(r'"expenseRatio":"([0-9.]+)%?"', page)
     if not expense:
-        raise ValueError(f"No expense ratio found for {ticker}")
+        print(
+            f"Warning: Vanguard expense ratio missing for {ticker}; "
+            f"using last-known sponsor value {fallback:.2f}%",
+            file=sys.stderr,
+        )
+        return fallback
     return float(expense.group(1))
 
 
