@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>Notes by Stephen Cropper</title>
-    <link href="https://cropper.info/"/>
-    <link rel="self" href="https://cropper.info/feed.xml"/>
-    <id>https://cropper.info/</id>
+    <link href="https://cropper.page/"/>
+    <link rel="self" href="https://cropper.page/feed.xml"/>
+    <id>https://cropper.page/</id>
     <updated>2026-07-24T00:00:00+00:00</updated>
     <author>
         <name>Stephen Cropper</name>
     </author>
     <entry>
         <title>Test note</title>
-        <link href="https://cropper.info/notes/test-note/"/>
-        <id>https://cropper.info/notes/test-note/</id>
+        <link href="https://cropper.page/notes/test-note/"/>
+        <id>https://cropper.page/notes/test-note/</id>
         <updated>2026-07-24T00:00:00+00:00</updated>
         <summary>Placeholder content, used to check that notes render correctly on the live site.</summary>
     </entry>

@@ -7,7 +7,7 @@ description: "Placeholder content, used to check that notes render correctly on 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Here is *emphasis*, some **bold**, a [link](https://cropper.info/),
+consequat. Here is *emphasis*, some **bold**, a [link](https://cropper.page/),
 and a bit of `inline code`.
 
 ## Duis aute irure

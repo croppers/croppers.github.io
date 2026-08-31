@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cropper.info/sitemap.xml
+Sitemap: https://cropper.page/sitemap.xml

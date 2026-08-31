@@ -24,7 +24,7 @@ from pathlib import Path
 
 import markdown
 
-SITE = "https://cropper.info"
+SITE = "https://cropper.page"
 ROOT = Path(__file__).parent
 SOURCE = ROOT / "content" / "notes"
 OUTPUT = ROOT / "notes"

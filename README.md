@@ -1,4 +1,4 @@
-# cropper.info
+# cropper.page
 
 A hand-written static site published by GitHub Pages from `main` at `/`.
 `index.html` and `style.css` are edited directly. The publication list and
